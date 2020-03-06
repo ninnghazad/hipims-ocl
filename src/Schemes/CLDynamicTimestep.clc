@@ -144,8 +144,8 @@ void tst_Advance_Normal(
 	dLclTimestep = fmin(dLclTimestep,TIMESTEP_MAXIMUM);
 
 	// Commit to global memory
-	*dTime			   = dLclTime;
-	*dTimestep		   = dLclTimestep;
+	*dTime		   = dLclTime;
+	*dTimestep	   = dLclTimestep;
 	*dTimeHydrological = dLclTimeHydrological;
 	*dBatchTimesteps   = dLclBatchTimesteps;
 	*uiBatchSuccessful = uiLclBatchSuccessful;
@@ -291,7 +291,7 @@ void tst_UpdateTimestep(
 
 	// Convert velocity to a time (assumes domain deltaX=deltaY here)
 	// Force progression at the start of a simulation.
-	dMinTime = DOMAIN_DELTAX/dMaxSpeed;
+	dMinTime = DOMAIN_DELTAX / dMaxSpeed;
 
 	if (dLclTime < TIMESTEP_START_MINIMUM_DURATION && dMinTime < TIMESTEP_START_MINIMUM)
 		dMinTime = TIMESTEP_START_MINIMUM;

@@ -132,12 +132,14 @@ cl_double4 riemannSolver(
 	} else {
 		s_L = ( ( ( dVel.S0 - dA.S0 ) > (U_star - A_star) ) ? ( U_star - A_star ) : ( dVel.S0 - dA.S0 ) );
 	}
+
 	if ( pRight.S1 < VERY_SMALL )
 	{
 		s_R = dVel.S0 + 2 * dA.S0;
 	} else {
 		s_R = ( ( ( dVel.S1 + dA.S1 ) < ( U_star + A_star ) ) ? ( U_star + A_star ) : ( dVel.S1 + dA.S1 ) );
 	}
+
 	s_M = ( s_L * pRight.S1 * ( dVel.S1 - s_R ) - s_R * pLeft.S1 * ( dVel.S0-s_L ) ) /
 			( pRight.S1 * ( dVel.S1 - s_R ) - pLeft.S1 * ( dVel.S0 - s_L ) );
 
@@ -186,7 +188,7 @@ cl_double4 riemannSolver(
 		#endif
 		return pFluxL;
 	}
-	if ( bRight )
+	else if ( bRight )
 	{
 		#ifdef DEBUG_OUTPUT
 		if ( bDebug )
@@ -212,8 +214,7 @@ cl_double4 riemannSolver(
 			0.0
 		};
 	}
-
-	if (bMiddle_2)
+	else if (bMiddle_2)
 	{
 		pFlux = (cl_double4){
 			F1_M,
@@ -232,8 +233,7 @@ cl_double4 riemannSolver(
 			0.0
 		);
 	}
-
-	if ( bMiddle_2 )
+	else if ( bMiddle_2 )
 	{
 		pFlux = (cl_double4)(
 			F1_M,
