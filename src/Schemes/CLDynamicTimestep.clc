@@ -124,7 +124,7 @@ void tst_Advance_Normal(
 	{
 		if ( dLclSyncTime - dLclTime > VERY_SMALL )
 			dLclTimestep = dLclSyncTime - dLclTime;
-		if ( dLclSyncTime - dLclTime <= VERY_SMALL )
+		else if ( dLclSyncTime - dLclTime <= VERY_SMALL )
 			dLclTimestep = -dLclTimestep;
 	}
 
@@ -192,7 +192,7 @@ void tst_Reduce(
 	while ( ulCellID < DOMAIN_CELLCOUNT )
 	{
 		// Calculate the velocity...
-		pCellState		= pCellData[ ulCellID ];
+		pCellState	= pCellData[ ulCellID ];
 		dBedElevation	= dBedData[ ulCellID ];
 
 		dDepth = pCellState.x - dBedElevation;
@@ -203,8 +203,11 @@ void tst_Reduce(
 
 			dVelX = pCellState.z / dDepth;
 			dVelY = pCellState.w / dDepth;
-			if ( dVelX < 0.0 ) dVelX = -dVelX;
-			if ( dVelY < 0.0 ) dVelY = -dVelY;
+
+			// if ( dVelX < 0.0 ) dVelX = -dVelX;
+			dVelX = fabs(dVelX);
+			// if ( dVelY < 0.0 ) dVelY = -dVelY;
+			dVelY = fabs(dVelY);
 
 			dVelX += sqrt( GRAVITY * dDepth );
 			dVelY += sqrt( GRAVITY * dDepth );
@@ -313,8 +316,9 @@ void tst_UpdateTimestep(
 		dLclTimestep = fmax((cl_double)0.0, dLclSyncTime - dLclTime);
 
 	// A sensible maximum timestep
-	if (dLclTimestep > TIMESTEP_MAXIMUM)
-		dLclTimestep = TIMESTEP_MAXIMUM;
+	// if (dLclTimestep > TIMESTEP_MAXIMUM)
+	//	dLclTimestep = TIMESTEP_MAXIMUM;
+	dLclTimestep = fmin(dLclTimestep,TIMESTEP_MAXIMUM);
 
 	// Commit to global memory
 	*dTimestep		   = dLclTimestep;
