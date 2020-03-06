@@ -490,18 +490,18 @@ cl_double4 evolveCellState (
 
 	// Calculation of the source terms
 	dSourceTerms.x = 0.0;
-	dSourceTerms.y = -1 * GRAVITY * ( (pCellExtrapolatedFaceE.x + pCellExtrapolatedFaceW.x) / 2 ) * ( ( ( pCellExtrapolatedFaceE.x - pCellExtrapolatedFaceE.y ) - ( pCellExtrapolatedFaceW.x - pCellExtrapolatedFaceW.y ) ) / DOMAIN_DELTAX );
-	dSourceTerms.z = -1 * GRAVITY * ( (pCellExtrapolatedFaceN.x + pCellExtrapolatedFaceS.x) / 2 ) * ( ( ( pCellExtrapolatedFaceN.x - pCellExtrapolatedFaceN.y ) - ( pCellExtrapolatedFaceS.x - pCellExtrapolatedFaceS.y ) ) / DOMAIN_DELTAY );
+	dSourceTerms.y = -1 * GRAVITY * ( (pCellExtrapolatedFaceE.x + pCellExtrapolatedFaceW.x) / 2 ) * ( ( ( pCellExtrapolatedFaceE.x - pCellExtrapolatedFaceE.y ) - ( pCellExtrapolatedFaceW.x - pCellExtrapolatedFaceW.y ) ) * DOMAIN_DELTAX_R );
+	dSourceTerms.z = -1 * GRAVITY * ( (pCellExtrapolatedFaceN.x + pCellExtrapolatedFaceS.x) / 2 ) * ( ( ( pCellExtrapolatedFaceN.x - pCellExtrapolatedFaceN.y ) - ( pCellExtrapolatedFaceS.x - pCellExtrapolatedFaceS.y ) ) * DOMAIN_DELTAY_R );
 
 	// Calculation of the change values per timestep and spatial dimension
-	dDeltaValues.x	= ( pFluxE.x  - pFluxW.x  )/DOMAIN_DELTAX + 
-					  ( pFluxN.x  - pFluxS.x  )/DOMAIN_DELTAY - 
+	dDeltaValues.x	= ( pFluxE.x  - pFluxW.x  )* DOMAIN_DELTAX_R + 
+					  ( pFluxN.x  - pFluxS.x  )* DOMAIN_DELTAY_R - 
 					  dSourceTerms.x;
-	dDeltaValues.z	= ( pFluxE.y - pFluxW.y )/DOMAIN_DELTAX + 
-					  ( pFluxN.y - pFluxS.y )/DOMAIN_DELTAY - 
+	dDeltaValues.z	= ( pFluxE.y - pFluxW.y )* DOMAIN_DELTAX_R + 
+					  ( pFluxN.y - pFluxS.y )* DOMAIN_DELTAY_R - 
 					  dSourceTerms.y;
-	dDeltaValues.w	= ( pFluxE.z - pFluxW.z )/DOMAIN_DELTAX + 
-					  ( pFluxN.z - pFluxS.z )/DOMAIN_DELTAY - 
+	dDeltaValues.w	= ( pFluxE.z - pFluxW.z )* DOMAIN_DELTAX_R + 
+					  ( pFluxN.z - pFluxS.z )* DOMAIN_DELTAY_R - 
 					  dSourceTerms.z;
 
 	// Round delta values to zero if small
@@ -705,18 +705,18 @@ void mch_2nd_cacheNone (
 	// Source term vector
 	// TODO: Somehow get these sorted too...
 	pSourceTerms.x = 0.0;
-	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigData[DOMAIN_DIR_E].x + pNeigData[DOMAIN_DIR_W].x ) / 2 ) * ( ( pNeigData[DOMAIN_DIR_E].y - pNeigData[DOMAIN_DIR_W].y ) / DOMAIN_DELTAX );
-	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigData[DOMAIN_DIR_N].x + pNeigData[DOMAIN_DIR_S].x ) / 2 ) * ( ( pNeigData[DOMAIN_DIR_N].y - pNeigData[DOMAIN_DIR_S].y ) / DOMAIN_DELTAY );
+	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigData[DOMAIN_DIR_E].x + pNeigData[DOMAIN_DIR_W].x ) / 2 ) * ( ( pNeigData[DOMAIN_DIR_E].y - pNeigData[DOMAIN_DIR_W].y ) * DOMAIN_DELTAX_R );
+	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigData[DOMAIN_DIR_N].x + pNeigData[DOMAIN_DIR_S].x ) / 2 ) * ( ( pNeigData[DOMAIN_DIR_N].y - pNeigData[DOMAIN_DIR_S].y ) * DOMAIN_DELTAY_R );
 
 	// Calculation of change values per timestep and spatial dimension
-	dDeltaValues.x	= ( pFlux[1].x  - pFlux[3].x  )/DOMAIN_DELTAX + 
-					  ( pFlux[0].x  - pFlux[2].x  )/DOMAIN_DELTAY - 
+	dDeltaValues.x	= ( pFlux[1].x  - pFlux[3].x  )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].x  - pFlux[2].x  )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.x;
-	dDeltaValues.z	= ( pFlux[1].y - pFlux[3].y )/DOMAIN_DELTAX + 
-					  ( pFlux[0].y - pFlux[2].y )/DOMAIN_DELTAY - 
+	dDeltaValues.z	= ( pFlux[1].y - pFlux[3].y )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].y - pFlux[2].y )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.y;
-	dDeltaValues.w	= ( pFlux[1].z - pFlux[3].z )/DOMAIN_DELTAX + 
-					  ( pFlux[0].z - pFlux[2].z )/DOMAIN_DELTAY - 
+	dDeltaValues.w	= ( pFlux[1].z - pFlux[3].z )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].z - pFlux[2].z )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.z;
 
 	// Round delta values to zero if small
@@ -1020,18 +1020,18 @@ void mch_cacheMaximum (
 	// Source term vector
 	// TODO: Somehow get these sorted too...
 	pSourceTerms.x = 0.0;
-	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigDataE.x + pNeigDataW.x ) / 2 ) * ( ( pNeigDataE.y - pNeigDataW.y ) / DOMAIN_DELTAX );
-	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigDataN.x + pNeigDataS.x ) / 2 ) * ( ( pNeigDataN.y - pNeigDataS.y ) / DOMAIN_DELTAY );
+	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigDataE.x + pNeigDataW.x ) / 2 ) * ( ( pNeigDataE.y - pNeigDataW.y ) * DOMAIN_DELTAX_R );
+	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigDataN.x + pNeigDataS.x ) / 2 ) * ( ( pNeigDataN.y - pNeigDataS.y ) * DOMAIN_DELTAY_R );
 
 	// Calculation of change values per timestep and spatial dimension
-	dDeltaValues.x	= ( pFlux[1].x  - pFlux[3].x  )/DOMAIN_DELTAX + 
-					  ( pFlux[0].x  - pFlux[2].x  )/DOMAIN_DELTAY - 
+	dDeltaValues.x	= ( pFlux[1].x  - pFlux[3].x  )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].x  - pFlux[2].x  )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.x;
-	dDeltaValues.z	= ( pFlux[1].y - pFlux[3].y )/DOMAIN_DELTAX + 
-					  ( pFlux[0].y - pFlux[2].y )/DOMAIN_DELTAY - 
+	dDeltaValues.z	= ( pFlux[1].y - pFlux[3].y )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].y - pFlux[2].y )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.y;
-	dDeltaValues.w	= ( pFlux[1].z - pFlux[3].z )/DOMAIN_DELTAX + 
-					  ( pFlux[0].z - pFlux[2].z )/DOMAIN_DELTAY - 
+	dDeltaValues.w	= ( pFlux[1].z - pFlux[3].z )* DOMAIN_DELTAX_R + 
+					  ( pFlux[0].z - pFlux[2].z )* DOMAIN_DELTAY_R - 
 					  pSourceTerms.z;
 
 	// Round delta values to zero if small

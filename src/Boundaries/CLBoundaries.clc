@@ -76,7 +76,7 @@ __kernel void bdy_Cell (
 			pConfig.DefinitionDischarge == BOUNDARY_DISCHARGE_IS_VOLUME)
 		{
 			// Calculate a suitable depth based
-			__private cl_double dDepth = (fabs(pTSInterp.z) * dLocalTimestep) / DOMAIN_DELTAY + (fabs(pTSInterp.w) * dLocalTimestep) / DOMAIN_DELTAX;
+			__private cl_double dDepth = (fabs(pTSInterp.z) * dLocalTimestep) * DOMAIN_DELTAY_R + (fabs(pTSInterp.w) * dLocalTimestep) * DOMAIN_DELTAX_R;
 			__private cl_double dNormalDepth = fmax(pown(pTSInterp.z, 2) / GRAVITY, pown(pTSInterp.w, 2) / GRAVITY);
 			__private cl_double dCriticalDepth = fmax(pow(pow(pTSInterp.z, 2) / GRAVITY, 1.0 / 3.0), pow(pow(pTSInterp.w, 2) / GRAVITY, 1.0 / 3.0));
 
