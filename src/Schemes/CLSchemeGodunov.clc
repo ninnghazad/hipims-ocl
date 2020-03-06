@@ -85,7 +85,7 @@ cl_uchar reconstructInterface(
 	cl_double	dShiftV = dBedMaximum - (ucDirection < DOMAIN_DIR_S ? pStateLeft : pStateRight).S0;
 
 	//if (dShiftV < 0.0) dShiftV = 0.0;
-	dShiftV = max(dShiftV,0.0);
+	dShiftV = fmax(dShiftV,0.0);
 
 	// Adjustment of depths and dependent elements
 //	pReconstructionLeft.S1 = (pStateLeft.S0 - dBedMaximum > 0.0 ? (pStateLeft.S0 - dBedMaximum) : 0.0);
@@ -325,10 +325,11 @@ void gts_cacheDisabled (
 	// Source term vector
 	// TODO: Somehow get these sorted too...
 	pSourceTerms.x = 0.0;
-	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigDataE.x + pNeigDataW.x ) / 2 ) * ( ( dNeigBedElevE - dNeigBedElevW ) * DOMAIN_DELTAX_R );
-	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigDataN.x + pNeigDataS.x ) / 2 ) * ( ( dNeigBedElevN - dNeigBedElevS ) * DOMAIN_DELTAY_R );
+	pSourceTerms.y = -1 * GRAVITY * ( ( pNeigDataE.x + pNeigDataW.x ) * 0.5 ) * ( ( dNeigBedElevE - dNeigBedElevW ) * DOMAIN_DELTAX_R );
+	pSourceTerms.z = -1 * GRAVITY * ( ( pNeigDataN.x + pNeigDataS.x ) * 0.5 ) * ( ( dNeigBedElevN - dNeigBedElevS ) * DOMAIN_DELTAY_R );
 
 	// Calculation of change values per timestep and spatial dimension
+	/*
 	dDeltaValues.x	= ( pFlux[1].x  - pFlux[3].x  )* DOMAIN_DELTAX_R +
 					  ( pFlux[0].x  - pFlux[2].x  )* DOMAIN_DELTAY_R -
 					  pSourceTerms.x;
@@ -338,10 +339,14 @@ void gts_cacheDisabled (
 	dDeltaValues.w	= ( pFlux[1].z - pFlux[3].z )* DOMAIN_DELTAX_R +
 					  ( pFlux[0].z - pFlux[2].z )* DOMAIN_DELTAY_R -
 					  pSourceTerms.z;
+	*/
+
+	dDeltaValues.xzw = (pFlux[1].xyz - pFlux[3].xyz) * DOMAIN_DELTAX_R + (pFlux[0].xyz - pFlux[2].xyz) * DOMAIN_DELTAY_R - pSourceTerms.xyz;
 
 	// Round delta values to zero if small
 	// TODO: Explore whether this can be rewritten as some form of clamp operation?
-	// TODO: fabs(dDeltaValues.x) < VERY_SMALL
+	//       hm, don't think so - but maybe some fabs()?
+	/*
 	if ( ( dDeltaValues.x > 0.0 && dDeltaValues.x <  VERY_SMALL ) ||
 		 ( dDeltaValues.x < 0.0 && dDeltaValues.x > -VERY_SMALL ) )
 		 dDeltaValues.x = 0.0;
@@ -351,6 +356,10 @@ void gts_cacheDisabled (
 	if ( ( dDeltaValues.w > 0.0 && dDeltaValues.w <  VERY_SMALL ) ||
 		 ( dDeltaValues.w < 0.0 && dDeltaValues.w > -VERY_SMALL ) )
 		 dDeltaValues.w = 0.0;
+	*/
+	if(fabs(dDeltaValues.x) < VERY_SMALL) dDeltaValues.x = 0.0;
+	if(fabs(dDeltaValues.z) < VERY_SMALL) dDeltaValues.z = 0.0;
+	if(fabs(dDeltaValues.w) < VERY_SMALL) dDeltaValues.w = 0.0;
 
 	// Stopping conditions
 	if ( ucStop > 0 )

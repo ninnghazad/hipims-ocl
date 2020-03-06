@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -31,6 +31,7 @@
 #endif
 
 #define		GRAVITY					9.81		// 9.80665
+#define		GRAVITY_R				0.102		// 1.0 / 9.80665
 
 // Type aliases to be consistent across different platforms
 typedef char	    cl_char;
@@ -63,4 +64,3 @@ typedef float2      cl_float2;
 //typedef float3      cl_float3;
 typedef float4      cl_float4;
 typedef float8      cl_float8;
-

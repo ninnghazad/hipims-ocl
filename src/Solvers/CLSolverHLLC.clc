@@ -121,7 +121,7 @@ cl_double4 riemannSolver(
 #endif
 
 	a_Avg	= ( dA.S0   + dA.S1   ) * 0.5;
-	H_star	= ( ( a_Avg + ( dVel.S0 - dVel.S1 )/4 ) * ( a_Avg + ( dVel.S0 - dVel.S1 ) * .25 ) ) / GRAVITY;
+	H_star	= ( ( a_Avg + ( dVel.S0 - dVel.S1 ) * 0.25 ) * ( a_Avg + ( dVel.S0 - dVel.S1 ) * .25 ) ) * GRAVITY_R;
 	U_star	= ( dVel.S0 + dVel.S1 ) * 0.5 + dA.S0 - dA.S1;
 	A_star	= sqrt( GRAVITY * H_star );
 

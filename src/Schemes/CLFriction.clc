@@ -56,17 +56,19 @@ cl_double4 implicitFriction(
 	// Friction can only stop flow, not reverse it
 	if (pCellState.z >= 0.0)
 	{
-		// dFx = fmax(dFx,-pCellState.z * dLclTimestepR);
-		if (dFx < -pCellState.z * dLclTimestepR) dFx = -pCellState.z * dLclTimestepR;
+		//if (dFx < -pCellState.z * dLclTimestepR) dFx = -pCellState.z * dLclTimestepR;
+		dFx = fmax(dFx,-pCellState.z * dLclTimestepR);
 	} else {
-		// dFx = fmin(dFx,-pCellState.z * dLclTimestepR);
-		if (dFx > -pCellState.z * dLclTimestepR) dFx = -pCellState.z * dLclTimestepR;
+		//if (dFx > -pCellState.z * dLclTimestepR) dFx = -pCellState.z * dLclTimestepR;
+		dFx = fmin(dFx,-pCellState.z * dLclTimestepR);
 	}
 	if (pCellState.w >= 0.0)
 	{
-		if (dFy < -pCellState.w * dLclTimestepR) dFy = -pCellState.w * dLclTimestepR;
+		//if (dFy < -pCellState.w * dLclTimestepR) dFy = -pCellState.w * dLclTimestepR;
+		dFy = fmax(dFy,-pCellState.w * dLclTimestepR);
 	} else {
-		if (dFy > -pCellState.w * dLclTimestepR) dFy = -pCellState.w * dLclTimestepR;
+		//if (dFy > -pCellState.w * dLclTimestepR) dFy = -pCellState.w * dLclTimestepR;
+		dFy = fmin(dFy,-pCellState.w * dLclTimestepR);
 	}
 
 	// Update and commit data
