@@ -79,7 +79,7 @@ void tst_Advance_Normal(
 
 //	dCellSpeed = 0.0;
 	dMaxSpeed  = 0.0;
-	for( unsigned int i = 0; i < TIMESTEP_WORKERS; i++ )
+	for( unsigned int i = 0; i < TIMESTEP_WORKERS; ++i )
 	{
 		dMaxSpeed = fmax(dMaxSpeed,pReductionData[i]);
 	}
@@ -134,12 +134,14 @@ void tst_Advance_Normal(
 		dLclTimestep = TIMESTEP_EARLY_LIMIT;
 
 	// Don't exceed the total simulation time
-	if ( ( dLclTime + dLclTimestep ) > SCHEME_ENDTIME )
-		dLclTimestep = SCHEME_ENDTIME - dLclTime;
+	// if ( ( dLclTime + dLclTimestep ) > SCHEME_ENDTIME )
+	//	dLclTimestep = SCHEME_ENDTIME - dLclTime;
+	dLclTimestep = fmin(dLclTimestep,SCHEME_ENDTIME - dLclTime);
 
 	// A sensible maximum timestep
-	if (dLclTimestep > TIMESTEP_MAXIMUM)
-		dLclTimestep = TIMESTEP_MAXIMUM;
+	// if (dLclTimestep > TIMESTEP_MAXIMUM)
+	//	dLclTimestep = TIMESTEP_MAXIMUM;
+	dLclTimestep = fmin(dLclTimestep,TIMESTEP_MAXIMUM);
 
 	// Commit to global memory
 	*dTime			   = dLclTime;
@@ -213,15 +215,14 @@ void tst_Reduce(
 			dVelY = sqrt( GRAVITY * dDepth );
 
 			#endif
-			dCellSpeed = ( dVelX  < dVelY ) ? dVelY : dVelX;
+			dCellSpeed = fmax(dVelX,dVelY); // ( dVelX  < dVelY ) ? dVelY : dVelX;
 
 		} else {
 			dCellSpeed = 0.0;
 		}
 
 		// Is this velocity higher, therefore a greater time constraint?
-		if ( dCellSpeed > dMaxSpeed )
-			dMaxSpeed = dCellSpeed;
+		dMaxSpeed = fmax(dMaxSpeed,dCellSpeed);
 
 		// Move on to the next cell
 		ulCellID += get_global_size(0);
@@ -243,7 +244,7 @@ void tst_Reduce(
 		{
 			cl_double	dComparison   = pScratchData[ uiLocalID + iOffset ];
 			cl_double	dMine		  = pScratchData[ uiLocalID ];
-			pScratchData[ uiLocalID ] = ( dMine < dComparison ) ? dComparison: dMine;
+			pScratchData[ uiLocalID ] = fmax(dMine,dComparison); // ( dMine < dComparison ) ? dComparison: dMine;
 		}
 		barrier(CLK_LOCAL_MEM_FENCE);
 	}
@@ -279,11 +280,10 @@ void tst_UpdateTimestep(
 
 	dCellSpeed = 0.0;
 	dMaxSpeed  = 0.0;
-	for( unsigned int i = 0; i < TIMESTEP_WORKERS; i++ )
+	for( unsigned int i = 0; i < TIMESTEP_WORKERS; ++i )
 	{
 		dCellSpeed = pReductionData[i];
-		if ( dCellSpeed > dMaxSpeed )
-			dMaxSpeed = dCellSpeed;
+		dMaxSpeed = fmax(dMaxSpeed,dCellSpeed);
 	}
 
 	// Convert velocity to a time (assumes domain deltaX=deltaY here)
