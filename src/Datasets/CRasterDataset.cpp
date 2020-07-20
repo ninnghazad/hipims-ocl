@@ -250,6 +250,18 @@ bool	CRasterDataset::domainToRaster(
 									dDepth ) :
 							   ( pBand->GetNoDataValue() ) );
 				break;
+			case model::rasterDatasets::dataValues::kMaxVelocity:
+				dDepth		 = pDomain->getStateValue( ulCellID,
+									model::domainValueIndices::kValueFreeSurfaceLevel ) - 
+							   pDomain->getBedElevation( ulCellID );
+				dRow[ iCol ] = ( dDepth > 1E-8 ?
+							   sqrt(
+								pow(( pDomain->getStateValue( ulCellID, model::domainValueIndices::kValueDischargeY ) / dDepth ),2)+
+							   	pow(( pDomain->getStateValue( ulCellID, model::domainValueIndices::kValueDischargeY ) / dDepth ),2)
+								)
+								:
+							   ( pBand->GetNoDataValue() ) );
+				break;
 			case model::rasterDatasets::dataValues::kFroudeNumber:
 				dDepth		 = pDomain->getStateValue( ulCellID,
 									model::domainValueIndices::kValueFreeSurfaceLevel ) - 
@@ -544,6 +556,9 @@ void	CRasterDataset::getValueDetails( unsigned char ucValue, std::string* sValue
 		break;
 	case model::rasterDatasets::dataValues::kMaxDepth:
 		*sValueName  = "maximum depth";
+		break;
+	case model::rasterDatasets::dataValues::kMaxVelocity:
+		*sValueName  = "maximum velocity magnitude";
 		break;
 	case model::rasterDatasets::dataValues::kFroudeNumber:
 		*sValueName  = "froude number";
