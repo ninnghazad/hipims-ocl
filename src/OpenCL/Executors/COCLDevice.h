@@ -20,6 +20,7 @@
 #define HIPIMS_OPENCL_EXECUTORS_COCLDEVICE_H_
 
 #include "CExecutorControlOpenCL.h"
+#include <atomic>
 
 /*
  *  [OPENCL IMPLEMENTATION]
@@ -122,7 +123,7 @@ class COCLDevice
 		unsigned int				uiDeviceNo;																// Device number (no order)
 		bool						bErrored;																// Serious error triggered
 		bool						bForceSinglePrecision;													// Force single precision only?
-		bool						bBusy;																	// Is this device busy?
+		std::atomic<bool>						bBusy;																	// Is this device busy?
 
 		// Private functions
 		void						getAllInfo();															// Fetches all the info we'll need on the device
