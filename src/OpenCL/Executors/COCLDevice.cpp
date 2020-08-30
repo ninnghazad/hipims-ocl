@@ -481,41 +481,41 @@ void COCLDevice::markerCompletion()
 	unmarkBusy();
 }
 
-/*
-*  Is this device currently busy?
-*/
-bool COCLDevice::isBusy()
-{
-	std::cerr << __PRETTY_FUNCTION__ << ": " << this->bBusy << std::endl;
-
-	// To use the callback mechanism...
-	return this->bBusy;
-
-	if (clMarkerEvent == NULL)
-		return false;
-
-	cl_int iStatus;
-	size_t szStatusSize;
-	cl_int iQueryStatus = clGetEventInfo(
-		clMarkerEvent,
-		CL_EVENT_COMMAND_EXECUTION_STATUS,
-		sizeof(cl_int),
-		&iStatus,
-		&szStatusSize
-	);
-
-	if (iQueryStatus != CL_SUCCESS)
-		return true;
-
-	pManager->log->writeLine("Exec status for device #" + toString(uiDeviceNo)+" is " + toString(iStatus));
-	if (iStatus == CL_COMPLETE)
-	{
-		return false;
-	}
-	else {
-		return true;
-	}
-}
+// /*
+// *  Is this device currently busy?
+// */
+// bool COCLDevice::isBusy()
+// {
+// 	std::cerr << __PRETTY_FUNCTION__ << ": " << this->bBusy << std::endl;
+//
+// 	// To use the callback mechanism...
+// 	return this->bBusy;
+//
+// 	if (clMarkerEvent == NULL)
+// 		return false;
+//
+// 	cl_int iStatus;
+// 	size_t szStatusSize;
+// 	cl_int iQueryStatus = clGetEventInfo(
+// 		clMarkerEvent,
+// 		CL_EVENT_COMMAND_EXECUTION_STATUS,
+// 		sizeof(cl_int),
+// 		&iStatus,
+// 		&szStatusSize
+// 	);
+//
+// 	if (iQueryStatus != CL_SUCCESS)
+// 		return true;
+//
+// 	pManager->log->writeLine("Exec status for device #" + toString(uiDeviceNo)+" is " + toString(iStatus));
+// 	if (iStatus == CL_COMPLETE)
+// 	{
+// 		return false;
+// 	}
+// 	else {
+// 		return true;
+// 	}
+// }
 
 
 /*

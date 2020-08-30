@@ -86,12 +86,16 @@ class COCLDevice
 
 		// Public functions
 		void						markBusy() {
-			std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
+			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = true;
 		}					// Set the device as busy
 		void						unmarkBusy() {
-			std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
+			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = false;
+		}					// Set the device as not busy
+		bool						isBusy() {
+			// std::cerr << __PRETTY_FUNCTION__ << ": " << bBusy << std::endl;
+			return bBusy;
 		}					// Set the device as not busy
 		cl_context					getContext( void )					{ return clContext; }				// Returns the OpenCL context for this device only
 		CExecutorControlOpenCL*		getExecController( void )			{ return execController; }			// Get the owning exec controller
