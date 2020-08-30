@@ -486,6 +486,8 @@ void COCLDevice::markerCompletion()
 */
 bool COCLDevice::isBusy()
 {
+	std::cerr << __PRETTY_FUNCTION__ << ": " << this->bBusy << std::endl;
+
 	// To use the callback mechanism...
 	return this->bBusy;
 

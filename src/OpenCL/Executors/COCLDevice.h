@@ -85,8 +85,14 @@ class COCLDevice
 		cl_uint						clDeviceAlignBits;
 
 		// Public functions
-		void						markBusy()							{ bBusy = true;  }					// Set the device as busy
-		void						unmarkBusy()							{ bBusy = false;  }					// Set the device as busy
+		void						markBusy() {
+			std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
+			bBusy = true;
+		}					// Set the device as busy
+		void						unmarkBusy() {
+			std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
+			bBusy = false;
+		}					// Set the device as not busy
 		cl_context					getContext( void )					{ return clContext; }				// Returns the OpenCL context for this device only
 		CExecutorControlOpenCL*		getExecController( void )			{ return execController; }			// Get the owning exec controller
 		unsigned int				getDeviceID( void )					{ return uiDeviceNo; }				// Fetch the device number
