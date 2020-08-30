@@ -21,6 +21,7 @@
 
 #include "CExecutorControlOpenCL.h"
 #include <atomic>
+#include <mutex>
 
 /*
  *  [OPENCL IMPLEMENTATION]
@@ -86,12 +87,12 @@ class COCLDevice
 
 		// Public functions
 		void						markBusy() {
-			std::unique_lock<std::mutex> lock(busy_mutex);
+			std::unique_lock<std::mutex> lock(mBusyMutex);
 			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = true;
 		}					// Set the device as busy
 		void						unmarkBusy() {
-			std::unique_lock<std::mutex> lock(busy_mutex);
+			std::unique_lock<std::mutex> lock(mBusyMutex);
 			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = false;
 		}					// Set the device as not busy
@@ -136,7 +137,7 @@ class COCLDevice
 		bool						bErrored;																// Serious error triggered
 		bool						bForceSinglePrecision;													// Force single precision only?
 		std::atomic<bool>						bBusy;																	// Is this device busy?
-
+		std::mutex				mBusyMutex;
 		// Private functions
 		void						getAllInfo();															// Fetches all the info we'll need on the device
 		void*						getDeviceInfo( cl_device_info );										// Fetch a device info field
