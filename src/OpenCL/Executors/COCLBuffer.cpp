@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -53,7 +53,7 @@ COCLBuffer::COCLBuffer(
 	this->fCallbackRead		= COCLDevice::defaultCallback;
 	this->fCallbackWrite	= COCLDevice::defaultCallback;
 	this->clFlags			= 0;
-	this->clFlags		   |= ( this->bReadOnly ? CL_MEM_READ_ONLY : CL_MEM_READ_WRITE ); 
+	this->clFlags		   |= ( this->bReadOnly ? CL_MEM_READ_ONLY : CL_MEM_READ_WRITE );
 
 	// In theory it should be possible to use USE_HOST_PTR and reduce memory consumption
 	// but in a DLL environment it's a bit of a nightmare.
@@ -88,7 +88,7 @@ bool COCLBuffer::createBuffer()
 
 	// If the memory block is going to reside within this class
 	// and it hasn't been allocated, do so now...
-	if ( this->bInternalBlock && 
+	if ( this->bInternalBlock &&
 		 this->bExistsOnHost &&
 		 this->pHostBlock == NULL &&
 		 this->ulSize != NULL )
@@ -97,7 +97,7 @@ bool COCLBuffer::createBuffer()
 	// Need to at least have a size in any case
 	if ( this->ulSize < 0 || this->ulSize == NULL )
 	{
-		model::doError( 
+		model::doError(
 			"Memory buffer '" + this->sName + "' has no size.",
 			model::errorCodes::kLevelModelStop
 		);
@@ -169,7 +169,7 @@ void COCLBuffer::allocateHostBlock(
 {
 	try {
 		this->pHostBlock = new cl_uchar[ ulSize ]();
-	} 
+	}
 	catch ( std::bad_alloc )
 	{
 		model::doError(
@@ -200,20 +200,20 @@ void COCLBuffer::queueReadPartial(cl_ulong ulOffset, size_t ulSize, void* pMemBl
 
 	if (pMemBlock == NULL)
 		pMemBlock = static_cast<char*>(this->pHostBlock) + ulOffset;
-		
+
 	pDevice->markBusy();
-		
+
 	// Add a read buffer to the queue (non-blocking)
 	// Calling functions are expected to handle barriers etc.
 	cl_int	iReturn = clEnqueueReadBuffer(
 		this->clQueue,				// Device queue
-		clBuffer,					// Buffer object
-		CL_FALSE,					// Blocking?
-		ulOffset,					// Offset
-		ulSize,						// Size
-		pMemBlock,					// Target pointer
-		NULL,						// No. of events in wait list
-		NULL,						// Wait list
+		clBuffer,				// Buffer object
+		CL_FALSE,				// Blocking?
+		ulOffset,				// Offset
+		ulSize,					// Size
+		pMemBlock,				// Target pointer
+		NULL,					// No. of events in wait list
+		NULL,					// Wait list
 		( fCallbackRead != NULL && fCallbackRead != COCLDevice::defaultCallback ? &clEvent : NULL )					// Event pointer
 	);
 
@@ -221,7 +221,7 @@ void COCLBuffer::queueReadPartial(cl_ulong ulOffset, size_t ulSize, void* pMemBl
 	{
 		pManager->log->writeLine("Error code returned from memory read is " + toString(iReturn));
 		model::doError(
-			"Unable to read memory buffer from device back to host  " 
+			"Unable to read memory buffer from device back to host  "
 			+ this->sName + " (" + toString( iReturn ) + ")",
 			model::errorCodes::kLevelModelStop
 		);
@@ -244,7 +244,7 @@ void COCLBuffer::queueReadPartial(cl_ulong ulOffset, size_t ulSize, void* pMemBl
 			);
 			return;
 		}
-	}	
+	}
 }
 
 /*
@@ -270,7 +270,7 @@ void COCLBuffer::queueWritePartial(cl_ulong ulOffset, size_t ulSize, void* pMemB
 		pMemBlock = static_cast<char*>(this->pHostBlock) + ulOffset;
 
 	pDevice->markBusy();
-		
+
 	// Add a read buffer to the queue (non-blocking)
 	// Calling functions are expected to handle barriers etc.
 	cl_int	iReturn = clEnqueueWriteBuffer(
@@ -289,10 +289,10 @@ void COCLBuffer::queueWritePartial(cl_ulong ulOffset, size_t ulSize, void* pMemB
 	if ( iReturn != CL_SUCCESS )
 	{
 		model::doError(
-			"Unable to write to memory buffer for device\n  " 
+			"Unable to write to memory buffer for device\n  "
 			+ this->sName + " (" + toString( iReturn ) + ")\n"
-			+ "  Offset: " + toString( ulOffset ) 
-			+ "  Size: " + toString( ulSize ) 
+			+ "  Offset: " + toString( ulOffset )
+			+ "  Size: " + toString( ulSize )
 			+ "  Pointer: " + toString( pMemBlock )
 			+ "  Buf size: " + toString( this->ulSize ),
 			model::errorCodes::kLevelModelStop

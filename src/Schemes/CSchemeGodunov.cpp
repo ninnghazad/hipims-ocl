@@ -1335,11 +1335,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			}
 		}
 
-		// Flush the command queue so we can wait for it to finish
-		this->pDomain->getDevice()->flushAndSetMarker();
-
-		// Now that we're thread-based we can actually just block
-		// this thread... probably don't need the marker
+		// Block this thread until the device finishes it's clFlush and clFinish
 		this->pDomain->getDevice()->blockUntilFinished();
 
 		// Are cell states now synced?

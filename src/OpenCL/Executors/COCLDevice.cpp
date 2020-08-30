@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -32,14 +32,14 @@
 COCLDevice::COCLDevice( cl_device_id clDevice, unsigned int iPlatformID, unsigned int iDeviceNo )
 {
 	// Store the device and platform ID
-	this->uiPlatformID			= iPlatformID;
-	this->uiDeviceNo			= iDeviceNo + 1;
-	this->clDevice				= clDevice;
+	this->uiPlatformID		= iPlatformID;
+	this->uiDeviceNo		= iDeviceNo + 1;
+	this->clDevice			= clDevice;
 	this->execController		= pManager->getExecutor();
 	this->bForceSinglePrecision	= false;
-	this->bErrored				= false;
-	this->bBusy					= false;
-	this->clMarkerEvent			= NULL;
+	this->bErrored			= false;
+	this->bBusy			= false;
+	this->clMarkerEvent		= NULL;
 
 	pManager->log->writeLine( "Querying the suitability of a discovered device." );
 
@@ -169,12 +169,12 @@ void* COCLDevice::getDeviceInfo( cl_device_info clInfo )
 	cl_int		iErrorID;
 	size_t		clSize;
 
-	iErrorID = clGetDeviceInfo( 
-		this->clDevice, 
-		clInfo, 
-		NULL, 
-		NULL, 
-		&clSize 
+	iErrorID = clGetDeviceInfo(
+		this->clDevice,
+		clInfo,
+		NULL,
+		NULL,
+		&clSize
 	);
 
 	if (iErrorID != CL_SUCCESS)
@@ -182,12 +182,12 @@ void* COCLDevice::getDeviceInfo( cl_device_info clInfo )
 
 	char* cValue = new char[ clSize + 1 ];
 
-	iErrorID = clGetDeviceInfo( 
-		this->clDevice, 
-		clInfo, 
-		clSize, 
-		cValue, 
-		NULL 
+	iErrorID = clGetDeviceInfo(
+		this->clDevice,
+		clInfo,
+		clSize,
+		cValue,
+		NULL
 	);
 
 	if (iErrorID != CL_SUCCESS)
@@ -218,8 +218,8 @@ void COCLDevice::logDevice()
 		sDoubleSupport = "Available";
 
 	std::stringstream ssGroupDimensions;
-	ssGroupDimensions << "["  << this->clDeviceMaxWorkItemSizes[0] << 
-						 ", " << this->clDeviceMaxWorkItemSizes[1] << 
+	ssGroupDimensions << "["  << this->clDeviceMaxWorkItemSizes[0] <<
+						 ", " << this->clDeviceMaxWorkItemSizes[1] <<
 						 ", " << this->clDeviceMaxWorkItemSizes[2] << "]";
 
 	pLog->writeLine( "#" + toString( this->uiDeviceNo ) + sDeviceType, true, wColour );
@@ -262,8 +262,8 @@ void COCLDevice::createQueue()
 
 	pManager->log->writeLine( "Creating an OpenCL device context and command queue." );
 
-	this->clContext = clCreateContext( 
-		NULL,						// Properties (nothing special required) 
+	this->clContext = clCreateContext(
+		NULL,						// Properties (nothing special required)
 		1,							// Number of devices
 		&this->clDevice,			// Device
 		NULL,						// Error handling callback
@@ -271,10 +271,10 @@ void COCLDevice::createQueue()
 		&iErrorID					// Error ID pointer
 	);
 
-	if ( iErrorID != CL_SUCCESS ) 
+	if ( iErrorID != CL_SUCCESS )
 	{
-		model::doError( 
-			"Error creating device context.", 
+		model::doError(
+			"Error creating device context.",
 			model::errorCodes::kLevelWarning
 		);
 		return;
@@ -287,10 +287,10 @@ void COCLDevice::createQueue()
 		&iErrorID
 	);
 
-	if ( iErrorID != CL_SUCCESS ) 
+	if ( iErrorID != CL_SUCCESS )
 	{
-		model::doError( 
-			"Error creating device command queue.", 
+		model::doError(
+			"Error creating device command queue.",
 			model::errorCodes::kLevelWarning
 		);
 		return;
@@ -384,9 +384,9 @@ void	COCLDevice::queueBarrier()
  *  Block program execution until all commands in the queue are
  *  completed.
  */
-void	COCLDevice::blockUntilFinished()
+void COCLDevice::blockUntilFinished()
 {
-	this->bBusy = true;
+	markBusy();
 	clFlush( this->clQueue );
 	clFinish( this->clQueue );
 	/*
@@ -395,7 +395,7 @@ void	COCLDevice::blockUntilFinished()
 		clMarkerEvent = NULL;
 	}
 	*/
-	this->bBusy = false;
+	unmarkBusy();
 }
 
 /*
@@ -403,8 +403,8 @@ void	COCLDevice::blockUntilFinished()
  */
 bool COCLDevice::isDoubleCompatible()
 {
-	return ( this->clDeviceDoubleFloatConfig & 
-		 ( CL_FP_FMA | CL_FP_ROUND_TO_NEAREST | CL_FP_ROUND_TO_ZERO | CL_FP_ROUND_TO_INF | CL_FP_INF_NAN | CL_FP_DENORM ) ) == 
+	return ( this->clDeviceDoubleFloatConfig &
+		 ( CL_FP_FMA | CL_FP_ROUND_TO_NEAREST | CL_FP_ROUND_TO_ZERO | CL_FP_ROUND_TO_INF | CL_FP_INF_NAN | CL_FP_DENORM ) ) ==
 		 ( CL_FP_FMA | CL_FP_ROUND_TO_NEAREST | CL_FP_ROUND_TO_ZERO | CL_FP_ROUND_TO_INF | CL_FP_INF_NAN | CL_FP_DENORM );
 }
 
@@ -422,7 +422,7 @@ void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, 
  */
 void COCLDevice::flushAndSetMarker()
 {
-	this->bBusy	= true;
+	markBusy();
 	clFlush(clQueue);
 	return;
 
@@ -430,7 +430,7 @@ void COCLDevice::flushAndSetMarker()
 	this->blockUntilFinished();
 	return;
 #endif
-	
+
 	if ( clMarkerEvent != NULL )
 	{
 		clReleaseEvent( clMarkerEvent );
@@ -439,7 +439,7 @@ void COCLDevice::flushAndSetMarker()
 	// NOTE: OpenCL 1.2 uses clEnqueueMarkerWithWaitList() instead
 	clEnqueueMarker(
 		 clQueue,
-		 &clMarkerEvent 
+		 &clMarkerEvent
 	);
 
 	clSetEventCallback(
@@ -478,7 +478,7 @@ void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, v
 void COCLDevice::markerCompletion()
 {
 	this->clMarkerEvent = NULL;
-	this->bBusy			= false;
+	unmarkBusy();
 }
 
 /*

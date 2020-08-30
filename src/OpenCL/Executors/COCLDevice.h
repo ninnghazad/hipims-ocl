@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -81,11 +81,12 @@ class COCLDevice
 		cl_device_type				clDeviceType;
 		char*						clDeviceVendor;
 		char*						clDeviceOpenCLVersion;
-		char*						clDeviceOpenCLDriver;			
-		cl_uint						clDeviceAlignBits;	
+		char*						clDeviceOpenCLDriver;
+		cl_uint						clDeviceAlignBits;
 
 		// Public functions
 		void						markBusy()							{ bBusy = true;  }					// Set the device as busy
+		void						unmarkBusy()							{ bBusy = false;  }					// Set the device as busy
 		cl_context					getContext( void )					{ return clContext; }				// Returns the OpenCL context for this device only
 		CExecutorControlOpenCL*		getExecController( void )			{ return execController; }			// Get the owning exec controller
 		unsigned int				getDeviceID( void )					{ return uiDeviceNo; }				// Fetch the device number
@@ -98,17 +99,17 @@ class COCLDevice
 		std::string					getDeviceShortName( void );												// Fetch a short identifier for the device
 		void						logDevice( void );														// Write details to the log
 		bool						isSuitable( void );														// Is this device suitable?
-		bool						isReady( void );														// Is this device ready?	
+		bool						isReady( void );														// Is this device ready?
 		bool						isFiltered( void );														// Is this device filtered from use?
 		bool						isDoubleCompatible( void );												// Is there sufficient double precision support?
-		static void CL_CALLBACK		
-									defaultCallback( cl_event, cl_int, void * );							// Default event callback to dispose of the event	
+		static void CL_CALLBACK
+									defaultCallback( cl_event, cl_int, void * );							// Default event callback to dispose of the event
 		void						queueBarrier();															// Queue a barrier to synchronise all threads
 		void						blockUntilFinished();													// Pause the program until command exec completes
 		void						flushAndSetMarker();													// Set the kernel we should use to monitor completion
 		void						flush();
 		void						markerCompletion();														// Handle once the marker callback has been triggered (non-static)
-		static void CL_CALLBACK		
+		static void CL_CALLBACK
 									markerCallback( cl_event, cl_int, void * );								// Triggered when the marker is reached (but static...)
 
 	private:
