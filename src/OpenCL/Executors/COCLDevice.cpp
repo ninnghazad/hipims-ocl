@@ -386,7 +386,8 @@ void	COCLDevice::queueBarrier()
  */
 void COCLDevice::blockUntilFinished()
 {
-	markBusy();
+	std::unique_lock<std::mutex> lock(busy_mutex);
+	busy = true;
 	clFlush( this->clQueue );
 	clFinish( this->clQueue );
 	/*
@@ -395,7 +396,7 @@ void COCLDevice::blockUntilFinished()
 		clMarkerEvent = NULL;
 	}
 	*/
-	unmarkBusy();
+	busy = false;
 }
 
 /*

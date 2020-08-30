@@ -86,10 +86,12 @@ class COCLDevice
 
 		// Public functions
 		void						markBusy() {
+			std::unique_lock<std::mutex> lock(busy_mutex);
 			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = true;
 		}					// Set the device as busy
 		void						unmarkBusy() {
+			std::unique_lock<std::mutex> lock(busy_mutex);
 			// std::cerr << __PRETTY_FUNCTION__ << ": before: " << bBusy << std::endl;
 			bBusy = false;
 		}					// Set the device as not busy
