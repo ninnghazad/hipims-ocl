@@ -105,7 +105,6 @@ class COCLDevice
 		cl_device_type				getDeviceType( void )				{ return clDeviceType; }			// Get device type (bitmask)
 		char*						getOCLVersion( void )				{ return clDeviceOpenCLVersion; }	// Get OpenCL version
 		void						getSummary( sDeviceSummary & );											// Get device summary info
-		bool						isBusy(void);															// Is the device busy?
 		std::string					getDeviceShortName( void );												// Fetch a short identifier for the device
 		void						logDevice( void );														// Write details to the log
 		bool						isSuitable( void );														// Is this device suitable?
