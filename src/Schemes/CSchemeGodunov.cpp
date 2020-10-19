@@ -1366,11 +1366,11 @@ void CSchemeGodunov::Threaded_runBatch()
 			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) );
 			if ( this->dCurrentTimestep < 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a negative timestep..." );
+				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime));
 			}
 			if ( this->dCurrentTimestep == 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." );
+				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime));
 			}
 		}
 #endif
