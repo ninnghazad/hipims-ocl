@@ -1341,7 +1341,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			// We need to know the time...
 			this->pDomain->getDevice()->blockUntilFinished();
 			this->readKeyStatistics();
-			this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0});
+			this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0}); // DEBUG-NINNGHAZAD
 
 #ifdef DEBUG_MPI
 			pManager->log->writeLine( "[DEBUG] Downloading link data at " + Util::secondsToTime(this->dCurrentTime) );
@@ -1372,7 +1372,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Read from buffers back to scheme memory space
 		this->readKeyStatistics();
-		this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0});
+		this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0}); // DEBUG-NINNGHAZAD
 		#ifdef DEBUG_MPI
 				pManager->log->writeLine( "[DEBUG] timestep after readKeyStatistics: " + std::to_string(this->dCurrentTimestep) );
 		#endif
@@ -1380,14 +1380,14 @@ void CSchemeGodunov::Threaded_runBatch()
 #ifdef DEBUG_MPI
 		if ( uiQueueAmount > 0 )
 		{
-			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) );
+			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
 			if ( this->dCurrentTimestep < 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime));
+				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
 			}
 			if ( this->dCurrentTimestep == 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime));
+				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
 			}
 		}
 #endif
