@@ -1361,7 +1361,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		#ifdef DEBUG_MPI
 				pManager->log->writeLine( "[DEBUG] timestep after flush: " + std::to_string(this->dCurrentTimestep) );
 		#endif
-		
+
 		// Are cell states now synced?
 		if (bDownloadLinks)
 		{
@@ -1371,6 +1371,10 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Read from buffers back to scheme memory space
 		this->readKeyStatistics();
+
+		#ifdef DEBUG_MPI
+				pManager->log->writeLine( "[DEBUG] timestep after readKeyStatistics: " + std::to_string(this->dCurrentTimestep) );
+		#endif
 
 #ifdef DEBUG_MPI
 		if ( uiQueueAmount > 0 )
