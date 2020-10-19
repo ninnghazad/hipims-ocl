@@ -397,7 +397,7 @@ void	COCLDevice::blockUntilFinished()
 	*/
 	this->bBusy = false;
 	#ifdef DEBUG_MPI
-	pManager->log->writeLine( __PRETTY_FUNCTION__ + ": finished");
+	pManager->log->writeLine( std::string(__PRETTY_FUNCTION__) + ": finished");
 	#endif
 }
 
