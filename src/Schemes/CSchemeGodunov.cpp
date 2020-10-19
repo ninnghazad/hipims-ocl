@@ -1314,6 +1314,11 @@ void CSchemeGodunov::Threaded_runBatch()
 			this->bCellStatesSynced = false;
 		}
 
+
+#ifdef DEBUG_MPI
+		pManager->log->writeLine( "[DEBUG] timestep before sync: " + std::to_string(this->dCurrentTimestep) );
+#endif
+
 		// Schedule reading data back. We always need the timestep
 		// but we might not need the other details always...
 		oclBufferTimestep->queueReadAll();
@@ -1323,6 +1328,9 @@ void CSchemeGodunov::Threaded_runBatch()
 		oclBufferBatchTimesteps->queueReadAll();
 		uiIterationsSinceProgressCheck = 0;
 
+#ifdef DEBUG_MPI
+		pManager->log->writeLine( "[DEBUG] timestep after sync: " + std::to_string(this->dCurrentTimestep) );
+#endif
 #ifdef _WINDLL
 		oclBufferCellStates->queueReadAll();
 #endif
