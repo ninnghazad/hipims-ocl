@@ -1268,11 +1268,11 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Don't schedule any work if we're already at the sync point
 		// TODO: Review this...
-		//if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
-		//{
-		//	bRunning = false;
-		//	continue;
-		//}
+		// if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
+		// {
+		// 	bRunning = false;
+		// 	continue;
+		// }
 
 		// Can only schedule one iteration before we need to sync timesteps
 		// if timestep sync method is active.
@@ -1288,7 +1288,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		// Schedule a batch-load of work for the device
 		// Do we need to run any work?
 		if ( uiIterationsSinceSync < this->pDomain->getRollbackLimit() &&
-			 this->dCurrentTime + 0.0000001 < dTargetTime )
+			 this->dCurrentTime /*+ 0.0000001*/ < dTargetTime )
 		{
 			for (unsigned int i = 0; i < uiQueueAmount; i++)
 			{
@@ -1340,7 +1340,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		}
 
 		// Flush the command queue so we can wait for it to finish
-		this->pDomain->getDevice()->flushAndSetMarker();
+		// this->pDomain->getDevice()->flushAndSetMarker();
 
 		// Now that we're thread-based we can actually just block
 		// this thread... probably don't need the marker
