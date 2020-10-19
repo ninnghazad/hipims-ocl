@@ -1396,6 +1396,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		", dCurrentTime:  " + toString( dCurrentTime ) +
 		", dTargetTime:  " + toString( dTargetTime ) +
 		", this->dTargetTime:  " + toString( this->dTargetTime )
+		", this->dCurrentTimestepe:  " + toString( this->dCurrentTimestep )
 	);
 
 	// Wait for current work to finish
