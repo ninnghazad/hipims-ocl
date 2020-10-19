@@ -598,6 +598,9 @@ void	CModel::runModelDomainAssess(
 		if (domains->getDomain(i)->getScheme()->isRunning() || domains->getDomain(i)->getDevice()->isBusy())
 		{
 			bIdle[i] = false;
+			#ifdef DEBUG_MPI
+			pManager->log->writeLine("Domain #" + toString(i + 1) + " is not yet idle.");
+			#endif
 		}
 		else {
 			bIdle[i] = true;
