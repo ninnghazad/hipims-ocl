@@ -1341,6 +1341,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			// We need to know the time...
 			this->pDomain->getDevice()->blockUntilFinished();
 			this->readKeyStatistics();
+			this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0});
 
 #ifdef DEBUG_MPI
 			pManager->log->writeLine( "[DEBUG] Downloading link data at " + Util::secondsToTime(this->dCurrentTime) );
@@ -1371,7 +1372,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Read from buffers back to scheme memory space
 		this->readKeyStatistics();
-
+		this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0});
 		#ifdef DEBUG_MPI
 				pManager->log->writeLine( "[DEBUG] timestep after readKeyStatistics: " + std::to_string(this->dCurrentTimestep) );
 		#endif
