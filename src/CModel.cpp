@@ -697,6 +697,7 @@ void	CModel::runModelDomainAssess(
 		if ( this->getDomainSet()->getDomainCount() <= 1 )
 			dCurrentTime = dEarliestTime;
 #else
+		pManager->log->writeLine( "[DEBUG] dGlobalTimestep: " + std::to_string(dMinTimestep) );
 		dGlobalTimestep = dMinTimestep;
 		dCurrentTime = dEarliestTime;
 #endif
