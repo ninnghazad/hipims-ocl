@@ -1358,6 +1358,10 @@ void CSchemeGodunov::Threaded_runBatch()
 		// this thread... probably don't need the marker
 		this->pDomain->getDevice()->blockUntilFinished();
 
+		#ifdef DEBUG_MPI
+				pManager->log->writeLine( "[DEBUG] timestep after flush: " + std::to_string(this->dCurrentTimestep) );
+		#endif
+		
 		// Are cell states now synced?
 		if (bDownloadLinks)
 		{
