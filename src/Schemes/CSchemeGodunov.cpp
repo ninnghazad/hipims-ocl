@@ -1406,7 +1406,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			{
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
-			std::this_thread::sleep_for(1s);
+			// std::this_thread::sleep_for(1s);
 		}
 	}
 
