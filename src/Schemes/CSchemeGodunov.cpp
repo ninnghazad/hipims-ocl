@@ -1400,17 +1400,21 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Wait until further work is scheduled
 		this->bRunning = false;
-
-		if(this->dCurrentTimestep <= 0) {
-			if ( this->pDomain->getDevice()->isBusy() )
-			{
-				this->pDomain->getDevice()->blockUntilFinished();
-			}
-			// std::this_thread::sleep_for(1s);
-		}
+		//
+		// if(this->dCurrentTimestep <= 0) {
+		// 	if ( this->pDomain->getDevice()->isBusy() )
+		// 	{
+		// 		this->pDomain->getDevice()->blockUntilFinished();
+		// 	}
+		// 	// std::this_thread::sleep_for(1s);
+		// }
 	}
 
 	this->bThreadTerminated = true;
+
+	#ifdef DEBUG_MPI
+		std::cerr << __PRETTY_FUNCTION__ << ": finished" << std::endl;
+	#endif
 }
 
 /*
