@@ -809,7 +809,7 @@ void	CDomainCartesian::writeOutputs()
 	pScheme->readDomainAll();
 	pDevice->blockUntilFinished();
 
-	pManager->log->writeLine( "Finished step:   [" + std::to_string(pScheme->getCurrentTime()) + "], writing results ...");
+	pManager->log->writeLine( "Finished domain: [" + std::to_string(getID()) + "], step: [" + std::to_string(pScheme->getCurrentTime()) + "], writing results ...");
 
 
 	for( unsigned int i = 0; i < this->pOutputs.size(); ++i )
