@@ -422,7 +422,7 @@ void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, 
  */
 void COCLDevice::flushAndSetMarker()
 {
-	this->bBusy	= true;
+	this->bBusy = true;
 	clFlush(clQueue);
 	return;
 
@@ -470,6 +470,9 @@ void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, v
 
 	COCLDevice* pDevice = pManager->getExecutor()->getDevice( uiDeviceNo );
 	pDevice->markerCompletion();
+	#ifdef DEBUG_MPI
+	std::cerr << __PRETTY_FUNCTION__ << std::endl;
+	#endif
 }
 
 /*
