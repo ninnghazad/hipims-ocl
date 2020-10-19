@@ -1407,10 +1407,10 @@ void CSchemeGodunov::Threaded_runBatch()
  */
 void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 {
-	if(dTargetTime - this->dCurrentTime < 0.0000001) {
-		// Sometimes floating point noise makes this two unequal but extremely close
-		this->dCurrentTime = dTargetTime;
-	}
+	// if(dTargetTime - this->dCurrentTime < 0.0000001) {
+	// 	// Sometimes floating point noise makes this two unequal but extremely close
+	// 	this->dCurrentTime = dTargetTime;
+	// }
 #ifdef DEBUG_MPI
 	pManager->log->writeLine(
 		"runSimulation # this->dCurrentTime: "  + toString( this->dCurrentTime ) +
