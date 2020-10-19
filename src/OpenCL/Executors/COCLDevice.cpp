@@ -396,6 +396,9 @@ void	COCLDevice::blockUntilFinished()
 	}
 	*/
 	this->bBusy = false;
+	#ifdef DEBUG_MPI
+	std::cerr << __PRETTY_FUNCTION__ << ": finished" << std::endl;
+	#endif
 }
 
 /*
