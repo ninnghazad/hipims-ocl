@@ -1387,6 +1387,10 @@ void CSchemeGodunov::Threaded_runBatch()
  */
 void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 {
+	pManager->log->writeLine(
+		"runSimulation # dCurrentTime: "  + toString( dCurrentTime ) +
+		", dTargetTime:  " + toString( dTargetTime )
+	);
 	// Wait for current work to finish
 	if (this->bRunning || this->pDomain->getDevice()->isBusy())
 		return;
