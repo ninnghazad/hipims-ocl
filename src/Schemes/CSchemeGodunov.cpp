@@ -1159,6 +1159,10 @@ void CSchemeGodunov::Threaded_runBatch()
 			{
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
+#ifdef DEBUG_MPI
+			pManager->log->writeLine("[DEBUG] skipping, busy or not supposed to be running ...");
+#endif
+
 			continue;
 		}
 
@@ -1359,6 +1363,10 @@ void CSchemeGodunov::Threaded_runBatch()
 			if ( this->dCurrentTimestep < 0.0 )
 			{
 				pManager->log->writeLine( "[DEBUG] We have a negative timestep..." );
+			}
+			if ( this->dCurrentTimestep == 0.0 )
+			{
+				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." );
 			}
 		}
 #endif
