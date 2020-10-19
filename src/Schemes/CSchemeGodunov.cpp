@@ -1387,13 +1387,15 @@ void CSchemeGodunov::Threaded_runBatch()
  */
 void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 {
+	if(dTargetTime - this->dCurrentTime < 0.0000001) {
+		// Sometimes floating point noise makes this two unequal but extremely close
+		this->dCurrentTime = dTargetTime;
+	}
 	pManager->log->writeLine(
 		"runSimulation # dCurrentTime: "  + toString( dCurrentTime ) +
 		", dTargetTime:  " + toString( dTargetTime )
 	);
-	if(dTargetTime - this->dCurrentTime < 0.0000001) {
-		this->dCurrentTime = dTargetTime;
-	}
+	
 	// Wait for current work to finish
 	if (this->bRunning || this->pDomain->getDevice()->isBusy())
 		return;
