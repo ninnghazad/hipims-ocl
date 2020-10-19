@@ -1391,6 +1391,9 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		"runSimulation # dCurrentTime: "  + toString( dCurrentTime ) +
 		", dTargetTime:  " + toString( dTargetTime )
 	);
+	if(dTargetTime - this->dCurrentTime < 0.0000001) {
+		this->dCurrentTime = dTargetTime;
+	}
 	// Wait for current work to finish
 	if (this->bRunning || this->pDomain->getDevice()->isBusy())
 		return;
