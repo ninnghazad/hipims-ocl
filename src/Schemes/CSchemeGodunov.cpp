@@ -1171,7 +1171,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		{
 			this->bUpdateTargetTime = false;
 #ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + "...");
+			pManager->log->writeLine("[DEBUG] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
 #endif
 
 			if (pManager->getFloatPrecision() == model::floatPrecision::kSingle)
