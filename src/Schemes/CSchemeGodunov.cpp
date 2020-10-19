@@ -1160,7 +1160,7 @@ void CSchemeGodunov::Threaded_runBatch()
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
 #ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] skipping, busy or not supposed to be running ...");
+			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] skipping, busy or not supposed to be running ...");
 #endif
 
 			continue;
@@ -1171,7 +1171,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		{
 			this->bUpdateTargetTime = false;
 #ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
+			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
 #endif
 
 			if (pManager->getFloatPrecision() == model::floatPrecision::kSingle)
@@ -1207,7 +1207,7 @@ void CSchemeGodunov::Threaded_runBatch()
 				this->bOverrideTimestep = true;
 
 #ifdef DEBUG_MPI
-				pManager->log->writeLine("[DEBUG] Override timestep: " + Util::secondsToTime(this->dCurrentTimestep) + " ...");
+				pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Override timestep: " + Util::secondsToTime(this->dCurrentTimestep) + " ...");
 #endif
 			}
 
@@ -1215,7 +1215,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			//pDomain->getDevice()->blockUntilFinished();		// Shouldn't be needed
 
 #ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] Done updating new target time to " + Util::secondsToTime(this->dTargetTime) + " ...");
+			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Done updating new target time to " + Util::secondsToTime(this->dTargetTime) + " ...");
 #endif
 		}
 
@@ -1286,7 +1286,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 #ifdef DEBUG_MPI
 		if ( uiQueueAmount > 0 )
-			pManager->log->writeLine("[DEBUG] Starting batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")");
+			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Starting batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")");
 #endif
 
 		// Schedule a batch-load of work for the device
@@ -1383,14 +1383,14 @@ void CSchemeGodunov::Threaded_runBatch()
 			std::stringstream ss;
 			ss << std::this_thread::get_id();
 			std::string tid = ss.str();
-			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " THREAD: " + tid);
+			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " THREAD: " + tid);
 			if ( this->dCurrentTimestep < 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
+				pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
 			}
 			if ( this->dCurrentTimestep == 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
+				pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
 			}
 		}
 #endif
