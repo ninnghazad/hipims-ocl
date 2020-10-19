@@ -1288,7 +1288,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		// Schedule a batch-load of work for the device
 		// Do we need to run any work?
 		if ( uiIterationsSinceSync < this->pDomain->getRollbackLimit() &&
-			 this->dCurrentTime < dTargetTime )
+			 this->dCurrentTime + 0.0000001 < dTargetTime )
 		{
 			for (unsigned int i = 0; i < uiQueueAmount; i++)
 			{
