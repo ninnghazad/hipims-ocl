@@ -1411,6 +1411,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		// Sometimes floating point noise makes this two unequal but extremely close
 		this->dCurrentTime = dTargetTime;
 	}
+#ifdef DEBUG_MPI
 	pManager->log->writeLine(
 		"runSimulation # this->dCurrentTime: "  + toString( this->dCurrentTime ) +
 		", dCurrentTime:  " + toString( dCurrentTime ) +
@@ -1418,6 +1419,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		", this->dTargetTime:  " + toString( this->dTargetTime ) +
 		", this->dCurrentTimestepe:  " + toString( this->dCurrentTimestep )
 	);
+#endif
 
 	// Wait for current work to finish
 	if (this->bRunning || this->pDomain->getDevice()->isBusy())
