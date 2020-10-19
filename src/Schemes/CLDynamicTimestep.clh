@@ -21,12 +21,12 @@
  * ------------------------------------------
  *
  */
-#define TIMESTEP_EARLY_LIMIT			0.1
+#define TIMESTEP_EARLY_LIMIT			0.01
 #define TIMESTEP_EARLY_LIMIT_DURATION	60.0
-#define TIMESTEP_START_MINIMUM			1E-6
+#define TIMESTEP_START_MINIMUM			1E-10
 #define TIMESTEP_START_MINIMUM_DURATION	1.0
-#define TIMESTEP_MINIMUM				1E-6
-#define TIMESTEP_MAXIMUM				30.0
+#define TIMESTEP_MINIMUM				1E-10
+#define TIMESTEP_MAXIMUM				15.0
 
 #ifdef USE_FUNCTION_STUBS
 // Function definitions
