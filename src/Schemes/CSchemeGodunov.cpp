@@ -1397,6 +1397,10 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Wait until further work is scheduled
 		this->bRunning = false;
+
+		if(this->dCurrentTimestep <= 0) {
+			std::this_thread::sleep(1);
+		}
 	}
 
 	this->bThreadTerminated = true;
