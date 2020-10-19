@@ -1286,7 +1286,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 #ifdef DEBUG_MPI
 		if ( uiQueueAmount > 0 )
-			pManager->log->writeLine("[DEBUG] Starting batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) );
+			pManager->log->writeLine("[DEBUG] Starting batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")");
 #endif
 
 		// Schedule a batch-load of work for the device
