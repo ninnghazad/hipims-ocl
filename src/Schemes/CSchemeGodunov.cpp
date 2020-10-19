@@ -20,6 +20,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string_regex.hpp>
 #include <algorithm>
+
 #include <chrono>
 using namespace std::chrono_literals;
 
@@ -1401,6 +1402,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		this->bRunning = false;
 
 		if(this->dCurrentTimestep <= 0) {
+			this->bBusy = false;
 			std::this_thread::sleep_for(1s);
 		}
 	}
