@@ -1392,10 +1392,11 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		this->dCurrentTime = dTargetTime;
 	}
 	pManager->log->writeLine(
-		"runSimulation # dCurrentTime: "  + toString( dCurrentTime ) +
-		", dTargetTime:  " + toString( dTargetTime )
+		"runSimulation # this->dCurrentTime: "  + toString( this->dCurrentTime ) +
+		", dTargetTime:  " + toString( dTargetTime ) +
+		", this->dTargetTime:  " + toString( this->dTargetTime )
 	);
-	
+
 	// Wait for current work to finish
 	if (this->bRunning || this->pDomain->getDevice()->isBusy())
 		return;
