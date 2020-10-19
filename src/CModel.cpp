@@ -604,6 +604,9 @@ void	CModel::runModelDomainAssess(
 		}
 		else {
 			bIdle[i] = true;
+			#ifdef DEBUG_MPI
+			pManager->log->writeLine("Domain #" + toString(i + 1) + " is idle!!!");
+			#endif
 		}
 	}
 
