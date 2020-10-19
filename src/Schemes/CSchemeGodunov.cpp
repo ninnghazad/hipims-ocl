@@ -1393,6 +1393,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 	}
 	pManager->log->writeLine(
 		"runSimulation # this->dCurrentTime: "  + toString( this->dCurrentTime ) +
+		", dCurrentTime:  " + toString( dCurrentTime ) +
 		", dTargetTime:  " + toString( dTargetTime ) +
 		", this->dTargetTime:  " + toString( this->dTargetTime )
 	);
