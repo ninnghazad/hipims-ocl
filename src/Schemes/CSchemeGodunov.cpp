@@ -1380,14 +1380,17 @@ void CSchemeGodunov::Threaded_runBatch()
 #ifdef DEBUG_MPI
 		if ( uiQueueAmount > 0 )
 		{
-			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
+			std::stringstream ss;
+			ss << std::this_thread::get_id();
+			std::string tid = ss.str();
+			pManager->log->writeLine("[DEBUG] Finished batch of " + toString(uiQueueAmount) + " with timestep " + Util::secondsToTime(this->dCurrentTimestep) + " at " + Util::secondsToTime(this->dCurrentTime) + " THREAD: " + tid);
 			if ( this->dCurrentTimestep < 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
+				pManager->log->writeLine( "[DEBUG] We have a negative timestep... " + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
 			}
 			if ( this->dCurrentTimestep == 0.0 )
 			{
-				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + std::to_string(std::this_thread::get_id()));
+				pManager->log->writeLine( "[DEBUG] We have a zero timestep..." + std::to_string(this->dCurrentTimestep) + " " + std::to_string(this->dCurrentTime) + " THREAD: " + tid);
 			}
 		}
 #endif
