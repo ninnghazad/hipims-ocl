@@ -1297,7 +1297,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			for (unsigned int i = 0; i < uiQueueAmount; i++)
 			{
 #ifdef DEBUG_MPI
-				pManager->log->writeLine( "Scheduling a new iteration..." );
+				pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Scheduling a new iteration..." );
 #endif
 				this->scheduleIteration(
 					bUseAlternateKernel,
@@ -1316,7 +1316,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 
 #ifdef DEBUG_MPI
-		pManager->log->writeLine( "[DEBUG] timestep before sync: " + std::to_string(this->dCurrentTimestep) );
+		pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] timestep before sync: " + std::to_string(this->dCurrentTimestep) );
 #endif
 
 		// Schedule reading data back. We always need the timestep
@@ -1329,7 +1329,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		uiIterationsSinceProgressCheck = 0;
 
 #ifdef DEBUG_MPI
-		pManager->log->writeLine( "[DEBUG] timestep after sync: " + std::to_string(this->dCurrentTimestep) );
+		pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] timestep after sync: " + std::to_string(this->dCurrentTimestep) );
 #endif
 #ifdef _WINDLL
 		oclBufferCellStates->queueReadAll();
@@ -1344,7 +1344,7 @@ void CSchemeGodunov::Threaded_runBatch()
 			this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0}); // DEBUG-NINNGHAZAD
 
 #ifdef DEBUG_MPI
-			pManager->log->writeLine( "[DEBUG] Downloading link data at " + Util::secondsToTime(this->dCurrentTime) );
+			pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Downloading link data at " + Util::secondsToTime(this->dCurrentTime) );
 #endif
 			for (unsigned int i = 0; i < this->pDomain->getDependentLinkCount(); i++)
 			{
@@ -1360,7 +1360,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		this->pDomain->getDevice()->blockUntilFinished();
 
 		#ifdef DEBUG_MPI
-				pManager->log->writeLine( "[DEBUG] timestep after flush: " + std::to_string(this->dCurrentTimestep) );
+				pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] timestep after flush: " + std::to_string(this->dCurrentTimestep) );
 		#endif
 
 		// Are cell states now synced?
@@ -1374,7 +1374,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		this->readKeyStatistics();
 		this->dCurrentTimestep = std::max(this->dCurrentTimestep,decltype(this->dCurrentTimestep){0}); // DEBUG-NINNGHAZAD
 		#ifdef DEBUG_MPI
-				pManager->log->writeLine( "[DEBUG] timestep after readKeyStatistics: " + std::to_string(this->dCurrentTimestep) );
+				pManager->log->writeLine( "[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] timestep after readKeyStatistics: " + std::to_string(this->dCurrentTimestep) );
 		#endif
 
 #ifdef DEBUG_MPI
