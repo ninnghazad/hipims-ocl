@@ -697,7 +697,9 @@ void	CModel::runModelDomainAssess(
 		if ( this->getDomainSet()->getDomainCount() <= 1 )
 			dCurrentTime = dEarliestTime;
 #else
+#ifdef DEBUG_MPI
 		pManager->log->writeLine( "[DEBUG] dGlobalTimestep: " + std::to_string(dMinTimestep) );
+#endif
 		dGlobalTimestep = dMinTimestep;
 		dCurrentTime = dEarliestTime;
 #endif
