@@ -1395,7 +1395,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 		"runSimulation # this->dCurrentTime: "  + toString( this->dCurrentTime ) +
 		", dCurrentTime:  " + toString( dCurrentTime ) +
 		", dTargetTime:  " + toString( dTargetTime ) +
-		", this->dTargetTime:  " + toString( this->dTargetTime )
+		", this->dTargetTime:  " + toString( this->dTargetTime ) +
 		", this->dCurrentTimestepe:  " + toString( this->dCurrentTimestep )
 	);
 
