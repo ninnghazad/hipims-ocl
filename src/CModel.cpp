@@ -565,6 +565,9 @@ void	CModel::runModelDomainAssess(
 		{
 			// Is this domain sync ready etc?
 			// TODO...
+			#ifdef DEBUG_MPI
+			pManager->log->writeLine("Domain #" + toString(i + 1) + " is local.");
+			#endif
 			bSyncReady[i] = true;
 			bIdle[i] = true;
 			continue;
