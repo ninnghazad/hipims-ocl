@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -26,6 +26,8 @@
 #include "../OpenCL/Executors/COCLDevice.h"
 #include "../OpenCL/Executors/COCLKernel.h"
 #include "../OpenCL/Executors/COCLBuffer.h"
+
+#include <atomic>
 
 namespace model {
 
@@ -134,9 +136,9 @@ class CScheme
 		// ...
 
 		// Private variables
-		bool				bRunning;																// Is this simulation currently running?
-		bool				bThreadRunning;															// Is the worker thread running?
-		bool				bThreadTerminated;														// Has the worker thread been terminated?
+		std::atomic<bool>				bRunning;																// Is this simulation currently running?
+		std::atomic<bool>				bThreadRunning;															// Is the worker thread running?
+		std::atomic<bool>				bThreadTerminated;														// Has the worker thread been terminated?
 		bool				bReady;																	// Is the scheme ready?
 		bool				bBatchComplete;															// Is the batch done?
 		bool				bBatchError;															// Have we run out of room?
@@ -158,7 +160,7 @@ class CScheme
 		cl_uint				uiBatchSuccessful;														// Number of successful batch iterations
 		cl_uint				uiBatchRate;															// Number of successful iterations per second
 		CDomain*			pDomain;																// Domain which this scheme is attached to
-		
+
 };
 
 #endif
