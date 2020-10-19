@@ -1399,7 +1399,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		this->bRunning = false;
 
 		if(this->dCurrentTimestep <= 0) {
-			std::this_thread::sleep(1);
+			std::this_thread::sleep_for(1);
 		}
 	}
 
