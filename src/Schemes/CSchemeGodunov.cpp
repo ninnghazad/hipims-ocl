@@ -1402,7 +1402,10 @@ void CSchemeGodunov::Threaded_runBatch()
 		this->bRunning = false;
 
 		if(this->dCurrentTimestep <= 0) {
-			this->bBusy = false;
+			if ( this->pDomain->getDevice()->isBusy() )
+			{
+				this->pDomain->getDevice()->blockUntilFinished();
+			}
 			std::this_thread::sleep_for(1s);
 		}
 	}
