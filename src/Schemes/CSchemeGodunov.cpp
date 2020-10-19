@@ -1205,13 +1205,17 @@ void CSchemeGodunov::Threaded_runBatch()
 			{
 				this->dCurrentTimestep  = dTargetTime - dCurrentTime;
 				this->bOverrideTimestep = true;
+
+#ifdef DEBUG_MPI
+				pManager->log->writeLine("[DEBUG] Override timestep: " + Util::secondsToTime(this->dCurrentTimestep) + " ...");
+#endif
 			}
 
 			pDomain->getDevice()->queueBarrier();
 			//pDomain->getDevice()->blockUntilFinished();		// Shouldn't be needed
 
 #ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] Done updating new target time to " + Util::secondsToTime(this->dTargetTime) + "...");
+			pManager->log->writeLine("[DEBUG] Done updating new target time to " + Util::secondsToTime(this->dTargetTime) + " ...");
 #endif
 		}
 
@@ -1340,7 +1344,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		}
 
 		// Flush the command queue so we can wait for it to finish
-		// this->pDomain->getDevice()->flushAndSetMarker();
+		this->pDomain->getDevice()->flushAndSetMarker();
 
 		// Now that we're thread-based we can actually just block
 		// this thread... probably don't need the marker
