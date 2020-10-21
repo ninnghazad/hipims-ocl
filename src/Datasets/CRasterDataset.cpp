@@ -145,12 +145,14 @@ bool	CRasterDataset::domainToRaster(
 
 	// Create and set metadata
 	czOptions = NULL;
-	pDataset = pDriver->Create(  sFilename.c_str(),			// Filename
-								 pDomain->getCols(),		// X size
-								 pDomain->getRows(),		// Y size
-								 1,							// Bands
-								 GDT_Float64,				// Data format
-								 czOptions );				// Options
+	pDataset = pDriver->Create(
+		sFilename.c_str(),			// Filename
+		pDomain->getCols(),		// X size
+		pDomain->getRows(),		// Y size
+		1,							// Bands
+		GDT_Float64,				// Data format
+		czOptions
+	);				// Options
 
 	if ( pDataset == NULL )
 	{
@@ -279,17 +281,19 @@ bool	CRasterDataset::domainToRaster(
 			}
 		}
 
-		pBand->RasterIO( GF_Write,							// Flag
-						 0,									// X offset
-						 pDomain->getRows() - iRow - 1,		// Y offset
-						 pDomain->getCols(),				// X size
-						 1,									// Y size
-						 dRow,								// Memory
-						 pDomain->getCols(),				// X buffer size
-						 1,									// Y buffer size
-						 GDT_Float64,						// Data type
-						 0,									// Pixel space
-						 0 );								// Line space
+		pBand->RasterIO(
+			GF_Write,			// Flag
+			0,				// X offset
+			pDomain->getRows() - iRow - 1,	// Y offset
+			pDomain->getCols(),		// X size
+			1,				// Y size
+			dRow,				// Memory
+			pDomain->getCols(),		// X buffer size
+			1,				// Y buffer size
+			GDT_Float64,			// Data type
+			0,				// Pixel space
+			0 				// Line space
+		);
 	}
 	delete [] dRow;
 
