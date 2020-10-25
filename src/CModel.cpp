@@ -957,9 +957,12 @@ void	CModel::runModelSchedule(CBenchmark::sPerformanceMetrics * sTotalMetrics, b
 #endif
 
 			// Set the timestep if we're synchronising them
-			if (this->getDomainSet()->getSyncMethod() == model::syncMethod::kSyncTimestep &&
-				dGlobalTimestep > 0.0)
+			if (this->getDomainSet()->getSyncMethod() == model::syncMethod::kSyncTimestep && dGlobalTimestep > 0.0) {
+#ifdef DEBUG_MPI
+				pManager->log->writeLine( "kSyncTimestep, syncing timestep - Global timestep: " + toString( dGlobalTimestep ) + " Current time: " + toString( domains->getDomain(i)->getScheme()->getCurrentTime() ) );
+#endif
 				domains->getDomain(i)->getScheme()->forceTimestep(dGlobalTimestep);
+			}
 			//pManager->log->writeLine( "Global timestep: " + toString( dGlobalTimestep ) + " Current time: " + toString( domains->getDomain(i)->getScheme()->getCurrentTime() ) );
 
 			// Run a batch
@@ -1082,7 +1085,7 @@ void	CModel::runModelMain()
 	{
 		#ifdef DEBUG_MPI
 			pManager->log->writeLine( "runModelMain: main iteration, dCurrentTime: " + std::to_string(this->dCurrentTime)
-			+ " dSimulationTime: " + std::to_string(dSimulationTime)
+			+ " dSimulationTime: " + std::to_string(dSimulationTime) // total time we want to simulate
 			+ " bAllIdle: " + std::to_string(bAllIdle)
 			);
 		#endif
