@@ -1080,6 +1080,13 @@ void	CModel::runModelMain()
 	// Even if user has forced abort, still wait until all idle state is reached
 	while ( ( this->dCurrentTime < dSimulationTime - 1E-5 && !model::forceAbort ) || !bAllIdle )
 	{
+		#ifdef DEBUG_MPI
+			pManager->log->writeLine( "runModelMain: main iteration, dCurrentTime: " + std::to_string(this->dCurrentTime)
+			+ " dSimulationTime: " + std::to_string(dSimulationTime)
+			+ " bAllIdle: " + std::to_string(bAllIdle)
+			);
+		#endif
+
 		// Assess the overall state of the simulation at present
 		this->runModelDomainAssess(
 			bSyncReady,
