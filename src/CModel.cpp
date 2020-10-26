@@ -881,19 +881,20 @@ void	CModel::runModelBlockGlobal()
 /*
  *  Write output files if required.
  */
-void	CModel::runModelOutputs()
+void CModel::runModelOutputs()
 {
-	if ( bRollbackRequired ||
-		 !bSynchronised ||
-		 !bAllIdle ||
-		 !( fabs(this->dCurrentTime - dLastOutputTime - pManager->getOutputFrequency()) < 1E-5 && this->dCurrentTime > dLastOutputTime) )
+	if ( bRollbackRequired || !bSynchronised || !bAllIdle ||
+		!( fabs(this->dCurrentTime - dLastOutputTime - pManager->getOutputFrequency()) < 1E-5 && this->dCurrentTime > dLastOutputTime) )
 		return;
 
+
+#ifdef DEBUG_MPI
+	pManager->log->writeLine( "[DEBUG] Global begin writing output ..." );
+#endif
 	this->writeOutputs();
 	dLastOutputTime = this->dCurrentTime;
 
-	for (unsigned int i = 0; i < domains->getDomainCount(); ++i)
-	{
+	for (unsigned int i = 0; i < domains->getDomainCount(); ++i) {
 		if (domains->isDomainLocal(i))
 			domains->getDomain(i)->getScheme()->forceTimeAdvance();
 	}
