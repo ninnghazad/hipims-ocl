@@ -2,8 +2,8 @@
 // OpenCL Error Checking Macros
 #include "opencl.h"
 #include <iostream>
-#define CL_ERR_TO_STR(err) case err: return #err
 
+#define CL_ERR_TO_STR(err) case err: return #err
 inline char const * clGetErrorString(cl_int const err) {
 	switch(err)
 		{
@@ -66,8 +66,8 @@ inline char const * clGetErrorString(cl_int const err) {
 			CL_ERR_TO_STR(CL_INVALID_COMPILER_OPTIONS);
 			CL_ERR_TO_STR(CL_INVALID_LINKER_OPTIONS);
 			CL_ERR_TO_STR(CL_INVALID_DEVICE_PARTITION_COUNT);
-			CL_ERR_TO_STR(CL_INVALID_PIPE_SIZE);
-			CL_ERR_TO_STR(CL_INVALID_DEVICE_QUEUE);
+			//CL_ERR_TO_STR(CL_INVALID_PIPE_SIZE);
+			//CL_ERR_TO_STR(CL_INVALID_DEVICE_QUEUE);
 
 		default:
 			return "UNKNOWN ERROR CODE";
