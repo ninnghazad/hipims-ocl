@@ -815,8 +815,8 @@ void	CDomainCartesian::writeOutputs()
 	{
 		// Replaces %t with the time in the filename, if required
 		// TODO: Allow for decimal output filenames
-		std::string sFilename		= this->pOutputs[i].sTarget;
-		std::string sTime			= toString( floor( pScheme->getCurrentTime() * 100.0 ) / 100.0 );
+		std::string sFilename	= this->pOutputs[i].sTarget;
+		std::string sTime	= toString( floor( pScheme->getCurrentTime() * 100.0 ) / 100.0 );
 		unsigned int uiTimeLocation = sFilename.find( "%t" );
 		if ( uiTimeLocation != std::string::npos )
 			sFilename.replace( uiTimeLocation, 2, sTime );
