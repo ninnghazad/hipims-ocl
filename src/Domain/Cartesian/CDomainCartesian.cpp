@@ -811,7 +811,6 @@ void	CDomainCartesian::writeOutputs()
 
 	pManager->log->writeLine( "Finished domain: [" + std::to_string(getID()) + "], step: [" + std::to_string(pScheme->getCurrentTime()) + "], writing results ...");
 
-
 	for( unsigned int i = 0; i < this->pOutputs.size(); ++i )
 	{
 		// Replaces %t with the time in the filename, if required
@@ -829,6 +828,8 @@ void	CDomainCartesian::writeOutputs()
 			this->pOutputs[i].ucValue
 		);
 	}
+
+	pManager->log->writeLine( "Finished domain: [" + std::to_string(getID()) + "], step: [" + std::to_string(pScheme->getCurrentTime()) + "], finished writing results.");
 }
 
 /*
