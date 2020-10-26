@@ -1183,11 +1183,9 @@ void CSchemeGodunov::Threaded_runBatch()
 			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
 #endif
 
-			if (pManager->getFloatPrecision() == model::floatPrecision::kSingle)
-			{
+			if (pManager->getFloatPrecision() == model::floatPrecision::kSingle) {
 				*(oclBufferTimeTarget->getHostBlock<float*>()) = static_cast<cl_float>(this->dTargetTime);
-			}
-			else {
+			} else {
 				*(oclBufferTimeTarget->getHostBlock<double*>()) = this->dTargetTime;
 			}
 			oclBufferTimeTarget->queueWriteAll();
