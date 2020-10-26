@@ -75,7 +75,9 @@ void COCLKernel::scheduleExecution()
 
 	cl_event		clEvent		= NULL;
 	cl_int			iErrorID	= CL_SUCCESS;
-
+#ifdef DEBUG_MPI
+	pManager->log->writeLine("OPENCL KERNEL: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
+#endif
 	pDevice->markBusy();
 
 	iErrorID = clEnqueueNDRangeKernel(
