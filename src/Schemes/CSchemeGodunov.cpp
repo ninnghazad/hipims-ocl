@@ -1276,11 +1276,11 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Don't schedule any work if we're already at the sync point
 		// TODO: Review this...
-		if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
-		{
-			bRunning = false;
-			continue;
-		}
+		// if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
+		// {
+		// 	bRunning = false;
+		// 	continue;
+		// }
 
 		// Can only schedule one iteration before we need to sync timesteps
 		// if timestep sync method is active.
