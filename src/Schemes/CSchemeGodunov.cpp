@@ -1168,9 +1168,6 @@ void CSchemeGodunov::Threaded_runBatch()
 			{
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
-#ifdef DEBUG_MPI
-			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] skipping, busy or not supposed to be running ...");
-#endif
 
 			continue;
 		}
