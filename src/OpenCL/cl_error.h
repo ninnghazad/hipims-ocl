@@ -78,12 +78,12 @@ inline cl_int cl_assert(cl_int const code, char const * const file, int const li
 	if (code != CL_SUCCESS) {
 		char const * const err_str = clGetErrorString(code);
 		//fprintf(stderr,	"\"%s\", line %d: cl_assert (%d) = \"%s\"",file,line,code,err_str);
-		std::cerr << "FATAL OPENCL ERROR: \"" << file << "\", line " << line << ": cl_asser (" << code << ") = \""  << err_str << "\"." << std::endl;
+		std::cerr << "FATAL OPENCL ERROR: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \""  << err_str << "\"." << std::endl;
 		if (abort) {
 			// just crash on OpenCL errors.
 			exit(code);
 		}
-	}
+	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \""  << err_str << "\"." << std::endl;
 	return code;
 }
 
