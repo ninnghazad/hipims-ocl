@@ -83,7 +83,7 @@ inline cl_int cl_assert(cl_int const code, char const * const file, int const li
 			// just crash on OpenCL errors.
 			exit(code);
 		}
-	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \""  << err_str << "\"." << std::endl;
+	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \"CL_SUCCESS\"." << std::endl;
 	return code;
 }
 
