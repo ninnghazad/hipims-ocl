@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -81,8 +81,8 @@ class COCLDevice
 		cl_device_type				clDeviceType;
 		char*						clDeviceVendor;
 		char*						clDeviceOpenCLVersion;
-		char*						clDeviceOpenCLDriver;			
-		cl_uint						clDeviceAlignBits;	
+		char*						clDeviceOpenCLDriver;
+		cl_uint						clDeviceAlignBits;
 
 		// Public functions
 		void						markBusy()							{ bBusy = true;  }					// Set the device as busy
@@ -98,37 +98,38 @@ class COCLDevice
 		std::string					getDeviceShortName( void );												// Fetch a short identifier for the device
 		void						logDevice( void );														// Write details to the log
 		bool						isSuitable( void );														// Is this device suitable?
-		bool						isReady( void );														// Is this device ready?	
+		bool						isReady( void );														// Is this device ready?
 		bool						isFiltered( void );														// Is this device filtered from use?
 		bool						isDoubleCompatible( void );												// Is there sufficient double precision support?
-		static void CL_CALLBACK		
-									defaultCallback( cl_event, cl_int, void * );							// Default event callback to dispose of the event	
+		static void CL_CALLBACK
+									defaultCallback( cl_event, cl_int, void * );							// Default event callback to dispose of the event
 		void						queueBarrier();															// Queue a barrier to synchronise all threads
 		void						blockUntilFinished();													// Pause the program until command exec completes
 		void						flushAndSetMarker();													// Set the kernel we should use to monitor completion
 		void						flush();
 		void						markerCompletion();														// Handle once the marker callback has been triggered (non-static)
-		static void CL_CALLBACK		
+		static void CL_CALLBACK
 									markerCallback( cl_event, cl_int, void * );								// Triggered when the marker is reached (but static...)
 
 	private:
 
 		// Private variables
 		CExecutorControlOpenCL*		execController;															// Controller for this device
-		cl_device_id				clDevice;																// OpenCL device
-		cl_context					clContext;																// OpenCL context
-		cl_command_queue			clQueue;																// OpenCL queue
-		cl_event					clMarkerEvent;															// Event associated with the marker
-		unsigned int				uiPlatformID;															// Platform ID in the control class
-		unsigned int				uiDeviceNo;																// Device number (no order)
-		bool						bErrored;																// Serious error triggered
-		bool						bForceSinglePrecision;													// Force single precision only?
-		std::atomic<bool>						bBusy;																	// Is this device busy?
+		cl_device_id			clDevice;																// OpenCL device
+		cl_context			clContext;																// OpenCL context
+		cl_command_queue		clQueue;																// OpenCL queue
+		cl_event			clMarkerEvent;															// Event associated with the marker
+		unsigned int			uiPlatformID;															// Platform ID in the control class
+		unsigned int			uiDeviceNo;																// Device number (no order)
+		bool				bErrored;																// Serious error triggered
+		bool				bForceSinglePrecision;													// Force single precision only?
+		std::atomic<bool>		bBusy;																	// Is this device busy?
+		std::mutex			clFinishMutex;
 
 		// Private functions
-		void						getAllInfo();															// Fetches all the info we'll need on the device
-		void*						getDeviceInfo( cl_device_info );										// Fetch a device info field
-		void						createQueue( void );													// Create the device context and queue
+		void				getAllInfo();															// Fetches all the info we'll need on the device
+		void*				getDeviceInfo( cl_device_info );										// Fetch a device info field
+		void				createQueue( void );													// Create the device context and queue
 
 		// Friendships (for access to data structure pointers mainly)
 		friend class				CDomain;
