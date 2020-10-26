@@ -124,7 +124,7 @@ class COCLDevice
 		bool				bErrored;																// Serious error triggered
 		bool				bForceSinglePrecision;													// Force single precision only?
 		std::atomic<bool>		bBusy;																	// Is this device busy?
-		std::mutex			clFinishMutex;
+		// std::mutex			clFinishMutex;
 
 		// Private functions
 		void				getAllInfo();															// Fetches all the info we'll need on the device

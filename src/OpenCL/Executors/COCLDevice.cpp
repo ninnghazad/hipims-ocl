@@ -387,17 +387,19 @@ void	COCLDevice::queueBarrier()
  */
 void	COCLDevice::blockUntilFinished()
 {
-	std::unique_lock<std::mutex> lock(clFinishMutex);
-	this->bBusy = true;
-	cl(clFlush( this->clQueue ));
-	cl(clFinish( this->clQueue ));
-	/*
-	if (clMarkerEvent != NULL) {
-		cl(clReleaseEvent(clMarkerEvent));
-		clMarkerEvent = NULL;
+	{
+		std::unique_lock<std::mutex> lock(clFinishMutex);
+		this->bBusy = true;
+		cl(clFlush( this->clQueue ));
+		cl(clFinish( this->clQueue ));
+		/*
+		if (clMarkerEvent != NULL) {
+			cl(clReleaseEvent(clMarkerEvent));
+			clMarkerEvent = NULL;
+		}
+		*/
+		this->bBusy = false;
 	}
-	*/
-	this->bBusy = false;
 	#ifdef DEBUG_MPI
 	pManager->log->writeLine( std::string(__PRETTY_FUNCTION__) + ": finished");
 	#endif
