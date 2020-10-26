@@ -1153,19 +1153,16 @@ void CSchemeGodunov::Threaded_runBatch()
 {
 	// Keep the thread in existence because of the overhead
 	// associated with creating a thread.
-	while (this->bThreadRunning)
-	{
+	while (this->bThreadRunning) {
 
 		// Are we expected to run?
-		if  (!this->bRunning || this->pDomain->getDevice()->isBusy())
-		{
+		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
 			#ifdef DEBUG_MPI
-					pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] "
-						"running: " + std::to_string(this->bRunning) + " "
-						"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
+				pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] "
+					"running: " + std::to_string(this->bRunning) + " "
+					"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
 			#endif
-			if ( this->pDomain->getDevice()->isBusy() )
-			{
+			if ( this->pDomain->getDevice()->isBusy() ) {
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
 
@@ -1173,8 +1170,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		}
 
 		// Have we been asked to update the target time?
-		if (this->bUpdateTargetTime)
-		{
+		if (this->bUpdateTargetTime) {
 			this->bUpdateTargetTime = false;
 #ifdef DEBUG_MPI
 			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
@@ -1276,6 +1272,7 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Don't schedule any work if we're already at the sync point
 		// TODO: Review this...
+		//       This does NOT fix the sync bug
 		// if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
 		// {
 		// 	bRunning = false;
