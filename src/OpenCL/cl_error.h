@@ -74,19 +74,20 @@ inline char const * clGetErrorString(cl_int const err) {
 		}
 }
 
-inline cl_int cl_assert(cl_int const code, char const * const file, int const line, bool const abort) {
+inline cl_int cl_assert(cl_int const code, char const * const command, char const * const file, int const line, bool const abort) {
 	if (code != CL_SUCCESS) {
 		char const * const err_str = clGetErrorString(code);
 		//fprintf(stderr,	"\"%s\", line %d: cl_assert (%d) = \"%s\"",file,line,code,err_str);
-		std::cerr << "FATAL OPENCL ERROR: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \""  << err_str << "\"." << std::endl;
+		std::cerr << "FATAL OPENCL ERROR: \"" << file << "\", line " << line << ": \"" << command << "\" (" << code << ") = \""  << err_str << "\"." << std::endl;
 		if (abort) {
 			// just crash on OpenCL errors.
 			exit(code);
 		}
-	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": cl_assert (" << code << ") = \"CL_SUCCESS\"." << std::endl;
+	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": \"" << command << "\" (" << code << ") = \"CL_SUCCESS\"." << std::endl;
 	return code;
 }
 
+#define STR(s) #s
 //#define cl(...)		cl_assert((cl##__VA_ARGS__), __FILE__, __LINE__, true);
-#define cl(...)		cl_assert((__VA_ARGS__), __FILE__, __LINE__, true);
-#define cl_ok(err) cl_assert(err, __FILE__, __LINE__, true);
+#define cl(...)		cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
+#define cl_ok(err) cl_assert(err, STR(__VA_ARGS__), __FILE__, __LINE__, true);
