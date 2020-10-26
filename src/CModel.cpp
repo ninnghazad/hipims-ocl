@@ -891,6 +891,7 @@ void CModel::runModelOutputs()
 #ifdef DEBUG_MPI
 	pManager->log->writeLine( "[DEBUG] Global begin writing output ..." );
 #endif
+
 	this->writeOutputs();
 	dLastOutputTime = this->dCurrentTime;
 
@@ -902,7 +903,9 @@ void CModel::runModelOutputs()
 #ifdef DEBUG_MPI
 	pManager->log->writeLine( "[DEBUG] Global block until all output files have been written..." );
 #endif
+
 	this->runModelBlockGlobal();
+
 #ifdef DEBUG_MPI
 	pManager->log->writeLine( "[DEBUG] Global block finished." );
 #endif
