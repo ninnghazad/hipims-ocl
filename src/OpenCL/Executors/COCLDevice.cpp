@@ -25,6 +25,7 @@
 #include "../../Base/CExecutorControl.h"
 #include "CExecutorControlOpenCL.h"
 #include "COCLDevice.h"
+#include "../cl_error.h"
 
 /*
  *  Constructor
