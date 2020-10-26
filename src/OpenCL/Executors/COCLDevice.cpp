@@ -285,7 +285,6 @@ void COCLDevice::createQueue()
 		this->clContext,
 		this->clDevice,
 		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-		0,
 		&iErrorID
 	);
 
