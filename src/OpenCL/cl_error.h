@@ -1,6 +1,6 @@
 #pragma once
 // OpenCL Error Checking Macros
-#include "../opencl.h"
+#include "opencl.h"
 #include <iostream>
 #define CL_ERR_TO_STR(err) case err: return #err
 
