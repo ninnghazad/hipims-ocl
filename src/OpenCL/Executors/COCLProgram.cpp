@@ -24,7 +24,7 @@
 #include "../../common.h"
 #include "COCLProgram.h"
 #include "COCLKernel.h"
-
+#include "../cl_error.h"
 /*
  *  Constructor
  */
