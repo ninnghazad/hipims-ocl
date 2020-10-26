@@ -490,7 +490,7 @@ void CModel::visualiserUpdate()
 void CL_CALLBACK CModel::visualiserCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	pManager->visualiserUpdate();
-	clReleaseEvent( clEvent );
+	cl(clReleaseEvent( clEvent ));
 }
 
 /*

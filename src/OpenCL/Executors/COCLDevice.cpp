@@ -52,9 +52,9 @@ COCLDevice::COCLDevice( cl_device_id clDevice, unsigned int iPlatformID, unsigne
  */
 COCLDevice::~COCLDevice(void)
 {
-	clFinish( this->clQueue );
-	clReleaseCommandQueue( this->clQueue );
-	clReleaseContext( this->clContext );
+	cl(clFinish( this->clQueue ));
+	cl(clReleaseCommandQueue( this->clQueue ));
+	cl(clReleaseContext( this->clContext ));
 
 	delete[] this->clDeviceMaxWorkItemSizes;
 	delete[] this->clDeviceName;
@@ -378,7 +378,7 @@ void	COCLDevice::queueBarrier()
 	// Causes crashes... for some reason... Review later.
 	return;
 #endif
-	clEnqueueBarrier( this->clQueue );
+	cl(clEnqueueBarrier( this->clQueue ));
 }
 
 /*
@@ -388,11 +388,11 @@ void	COCLDevice::queueBarrier()
 void	COCLDevice::blockUntilFinished()
 {
 	this->bBusy = true;
-	clFlush( this->clQueue );
-	clFinish( this->clQueue );
+	cl(clFlush( this->clQueue ));
+	cl(clFinish( this->clQueue ));
 	/*
 	if (clMarkerEvent != NULL) {
-		clReleaseEvent(clMarkerEvent);
+		cl(clReleaseEvent(clMarkerEvent));
 		clMarkerEvent = NULL;
 	}
 	*/
@@ -418,7 +418,7 @@ bool COCLDevice::isDoubleCompatible()
 void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	//unsigned int uiDeviceNo = *(unsigned int*)vData; // Unused
-	clReleaseEvent( clEvent );
+	cl(clReleaseEvent( clEvent ));
 }
 
 /*
@@ -427,7 +427,7 @@ void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, 
 void COCLDevice::flushAndSetMarker()
 {
 	this->bBusy = true;
-	clFlush(clQueue);
+	cl(clFlush(clQueue));
 	return;
 
 #ifdef USE_SIMPLE_ARCH_OPENCL
@@ -437,10 +437,10 @@ void COCLDevice::flushAndSetMarker()
 
 	if ( clMarkerEvent != NULL )
 	{
-		clReleaseEvent( clMarkerEvent );
+		cl(clReleaseEvent( clMarkerEvent ));
 	}
 
-	// NOTE: OpenCL 1.2 uses clEnqueueMarkerWithWaitList() instead
+	// NOTE: OpenCL 1.2 uses cl(clEnqueueMarkerWithWaitList()) instead
 	clEnqueueMarker(
 		 clQueue,
 		 &clMarkerEvent
@@ -453,7 +453,7 @@ void COCLDevice::flushAndSetMarker()
 		static_cast<void*>( &this->uiDeviceNo )
 	);
 
-	clFlush(clQueue);
+	cl(clFlush(clQueue));
 }
 
 /*
@@ -461,7 +461,7 @@ void COCLDevice::flushAndSetMarker()
  */
 void	COCLDevice::flush()
 {
-	clFlush(clQueue);
+	cl(clFlush(clQueue));
 }
 
 /*
@@ -470,7 +470,7 @@ void	COCLDevice::flush()
 void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	unsigned int uiDeviceNo = *(unsigned int*)vData;
-	clReleaseEvent( clEvent );
+	cl(clReleaseEvent( clEvent ));
 
 	COCLDevice* pDevice = pManager->getExecutor()->getDevice( uiDeviceNo );
 	pDevice->markerCompletion();
