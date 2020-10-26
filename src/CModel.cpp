@@ -30,6 +30,8 @@
 #include "Datasets/CRasterDataset.h"
 #include "MPI/CMPIManager.h"
 
+#include "OpenCL/cl_error.h"
+
 using std::min;
 using std::max;
 
