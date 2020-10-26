@@ -136,22 +136,22 @@ class CScheme
 		// ...
 
 		// Private variables
-		std::atomic<bool>				bRunning;																// Is this simulation currently running?
-		std::atomic<bool>				bThreadRunning;															// Is the worker thread running?
-		std::atomic<bool>				bThreadTerminated;														// Has the worker thread been terminated?
+		std::atomic<bool>		bRunning;																// Is this simulation currently running?
+		std::atomic<bool>		bThreadRunning;															// Is the worker thread running?
+		std::atomic<bool>		bThreadTerminated;														// Has the worker thread been terminated?
 		bool				bReady;																	// Is the scheme ready?
 		bool				bBatchComplete;															// Is the batch done?
 		bool				bBatchError;															// Have we run out of room?
 		bool				bFrictionEffects;														// Activate friction effects?
-		unsigned long long	ulCurrentCellsCalculated;												// Total number of cells calculated
+		unsigned long long		ulCurrentCellsCalculated;												// Total number of cells calculated
 		double				dCurrentTime;															// Current simulation time
 		double				dCurrentTimestep;														// Current simulation timestep
 		double				dTargetTime;															// Target time for synchronisation
 		bool				bAutomaticQueue;														// Automatic queue size detection?
 		double				dTimestep;																// Constant/initial timestep
-		unsigned int		uiQueueAdditionSize;													// Number of runs to queue at once
-		unsigned int		uiIterationsSinceSync;													// Number of iterations since we last synchronised
-		unsigned int		uiIterationsSinceProgressCheck;											// How many iterations since we downloaded progress data
+		unsigned int			uiQueueAdditionSize;													// Number of runs to queue at once
+		unsigned int			uiIterationsSinceSync;													// Number of iterations since we last synchronised
+		unsigned int			uiIterationsSinceProgressCheck;											// How many iterations since we downloaded progress data
 		double				dCourantNumber;															// Courant number for CFL condition
 		bool				bDynamicTimestep;														// Dynamic timestepping enabled?
 		double				dBatchStartedTime;														// Time at which the batch was started

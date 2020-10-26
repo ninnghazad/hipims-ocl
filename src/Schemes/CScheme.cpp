@@ -7,7 +7,7 @@
  *
  *  School of Civil Engineering & Geosciences
  *  Newcastle University
- * 
+ *
  * ------------------------------------------
  *  This code is licensed under GPLv3. See LICENCE
  *  for more information.
@@ -38,8 +38,8 @@ CScheme::CScheme()
 	pManager->log->writeLine( "Scheme base-class instantiated." );
 
 	// Not ready by default
-	this->bReady				= false;
-	this->bRunning				= false;
+	this->bReady			= false;
+	this->bRunning			= false;
 	this->bThreadRunning		= false;
 	this->bThreadTerminated		= false;
 
@@ -77,7 +77,7 @@ void	CScheme::setupFromConfig( XMLElement* pXScheme, bool bInheritanceChain )
 		Util::toLowercase( &cParameterValue, pParameter->Attribute( "value" ) );
 
 		if ( strcmp( cParameterName, "queuemode" ) == 0 )
-		{ 
+		{
 			unsigned char ucQueueMode = 255;
 			if ( strcmp( cParameterValue, "auto" ) == 0 )
 				ucQueueMode = model::queueMode::kAuto;
@@ -96,7 +96,7 @@ void	CScheme::setupFromConfig( XMLElement* pXScheme, bool bInheritanceChain )
 		else if ( strcmp( cParameterName, "queueinitialsize" )	== 0 ||
 				  strcmp( cParameterName, "queuesize" )			== 0 ||
 				  strcmp( cParameterName, "queuefixedsize" )	== 0 )
-		{ 
+		{
 			if ( !CXMLDataset::isValidUnsignedInt( cParameterValue ) )
 			{
 				model::doError(

@@ -48,21 +48,21 @@ CSchemeGodunov::CSchemeGodunov()
 	pManager->log->writeLine( "Godunov-type scheme loaded for execution on OpenCL platform." );
 
 	// Default setup values
-	this->bRunning						= false;
+	this->bRunning					= false;
 	this->bThreadRunning				= false;
 	this->bThreadTerminated				= false;
-	this->bDebugOutput					= false;
-	this->uiDebugCellX					= 9999;
-	this->uiDebugCellY					= 9999;
+	this->bDebugOutput				= false;
+	this->uiDebugCellX				= 9999;
+	this->uiDebugCellY				= 9999;
 
-	this->dCurrentTime					= 0.0;
+	this->dCurrentTime				= 0.0;
 	this->dThresholdVerySmall			= 1E-10;
 	this->dThresholdQuiteSmall			= this->dThresholdVerySmall * 10;
 	this->bFrictionInFluxKernel			= true;
 	this->bIncludeBoundaries			= false;
 	this->uiTimestepReductionWavefronts = 200;
 
-	this->ucSolverType					= model::solverTypes::kHLLC;
+	this->ucSolverType				= model::solverTypes::kHLLC;
 	this->ucConfiguration				= model::schemeConfigurations::godunovType::kCacheNone;
 	this->ucCacheConstraints			= model::cacheConstraints::godunovType::kCacheActualSize;
 
@@ -1080,7 +1080,7 @@ void	CSchemeGodunov::prepareSimulation()
 	bOverrideTimestep		= false;
 	bDownloadLinks			= false;
 	bImportLinks			= false;
-	bUseForcedTimeAdvance	= true;
+	bUseForcedTimeAdvance		= true;
 	bCellStatesSynced		= true;
 
 	// Need a timer...
@@ -1089,8 +1089,8 @@ void	CSchemeGodunov::prepareSimulation()
 	// Zero counters
 	ulCurrentCellsCalculated	= 0;
 	uiIterationsSinceSync		= 0;
-	uiIterationsSinceProgressCheck = 0;
-	dLastSyncTime				= 0.0;
+	uiIterationsSinceProgressCheck  = 0;
+	dLastSyncTime			= 0.0;
 
 	// States
 	bRunning = false;
@@ -1276,11 +1276,11 @@ void CSchemeGodunov::Threaded_runBatch()
 
 		// Don't schedule any work if we're already at the sync point
 		// TODO: Review this...
-		// if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
-		// {
-		// 	bRunning = false;
-		// 	continue;
-		// }
+		if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
+		{
+			bRunning = false;
+			continue;
+		}
 
 		// Can only schedule one iteration before we need to sync timesteps
 		// if timestep sync method is active.
