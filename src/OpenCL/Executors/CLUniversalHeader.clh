@@ -67,7 +67,8 @@ typedef float8			cl_float8;
 
 
 // OpenCL Error Checking Macros
-
+#include "../opencl.h"
+#include <iostream>
 #define CL_ERR_TO_STR(err) case err: return #err
 
 inline char const * clGetErrorString(cl_int const err) {
@@ -143,8 +144,8 @@ inline char const * clGetErrorString(cl_int const err) {
 inline cl_int cl_assert(cl_int const code, char const * const file, int const line, bool const abort) {
 	if (code != CL_SUCCESS) {
 		char const * const err_str = clGetErrorString(code);
-		fprintf(stderr,	"\"%s\", line %d: cl_assert (%d) = \"%s\"",file,line,code,err_str);
-
+		//fprintf(stderr,	"\"%s\", line %d: cl_assert (%d) = \"%s\"",file,line,code,err_str);
+		std::cerr << "FATAL OPENCL ERROR: \"" << file << "\", line " << line << ": cl_asser (" << code << ") = \""  << err_str << "\"." << std::endl;
 		if (abort) {
 			// just crash on OpenCL errors.
 			exit(code);
