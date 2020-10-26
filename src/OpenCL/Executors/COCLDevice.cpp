@@ -264,12 +264,12 @@ void COCLDevice::createQueue()
 	pManager->log->writeLine( "Creating an OpenCL device context and command queue." );
 
 	this->clContext = clCreateContext(
-		NULL,						// Properties (nothing special required)
-		1,							// Number of devices
-		&this->clDevice,			// Device
-		NULL,						// Error handling callback
-		NULL,						// User data argument for the error handling callback
-		&iErrorID					// Error ID pointer
+		NULL,			// Properties (nothing special required)
+		1,			// Number of devices
+		&this->clDevice,	// Device
+		NULL,			// Error handling callback
+		NULL,			// User data argument for the error handling callback
+		&iErrorID		// Error ID pointer
 	);
 
 	if ( iErrorID != CL_SUCCESS )
