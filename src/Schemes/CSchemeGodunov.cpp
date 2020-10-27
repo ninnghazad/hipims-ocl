@@ -888,7 +888,7 @@ bool CSchemeGodunov::prepare1OMemory()
 
 	// VISUALISER STUFF
 	// TODO: Make this a bit better, put it somewhere else, etc.
-	oclBufferCellStates->setCallbackRead( CModel::visualiserCallback );
+	// oclBufferCellStates->setCallbackRead( CModel::visualiserCallback );
 
 	return bReturnState;
 }
