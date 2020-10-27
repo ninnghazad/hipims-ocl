@@ -395,7 +395,7 @@ void	COCLDevice::blockUntilFinished()
 		{
 			uint32_t queue_size{0};
 			cl(clGetCommandQueueInfo(this->clQueue,CL_QUEUE_SIZE,sizeof(queue_size),&queue_size,NULL));
-			std::cout << "OPENCL QUEUE SIZE [" << getID() << "]: " << queue_size << std::endl;
+			std::cout << "OPENCL QUEUE SIZE [" << getID() << "]: " << queue_size << std::endl;;
 		}
 #endif
 
