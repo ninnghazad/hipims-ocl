@@ -237,6 +237,10 @@ void COCLBuffer::queueReadPartial(cl_ulong ulOffset, size_t ulSize, void* pMemBl
 			&this->uiDeviceID
 		);
 
+		#ifdef DEBUG_OPENCL
+			pManager->log->writeLine("OPENCL READ SET CALLBACK: #" + toString( this->uiDeviceID ) + " kernel: " + this->sName + "\n");
+		#endif
+
 		if ( iReturn != CL_SUCCESS )
 		{
 			model::doError(
@@ -309,7 +313,9 @@ void COCLBuffer::queueWritePartial(cl_ulong ulOffset, size_t ulSize, void* pMemB
 			fCallbackWrite,
 			&this->uiDeviceID
 		);
-
+		#ifdef DEBUG_OPENCL
+			pManager->log->writeLine("OPENCL WRITE SET CALLBACK: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
+		#endif
 		if ( iReturn != CL_SUCCESS )
 		{
 			model::doError(
