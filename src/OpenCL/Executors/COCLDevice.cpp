@@ -390,6 +390,15 @@ void	COCLDevice::blockUntilFinished()
 	{
 		// std::unique_lock<std::mutex> lock(clFinishMutex);
 		this->bBusy = true;
+
+#ifdef DEBUG_OPENCL
+		{
+			uint32_t queue_size{0};
+			cl(clGetCommandQueueInfo(this->clQueue,CL_​QUEUE_​SIZE,sizeof(queue_size),&queue_size,NULL));
+			std::cout << "OPENCL QUEUE SIZE [" << getID() << "]: " << queue_size << std::endl;
+		}
+#endif
+
 		// cl(clFlush( this->clQueue )); // clFinish (at least by standard reference) includes a flush
 		cl(clFinish( this->clQueue ));
 
