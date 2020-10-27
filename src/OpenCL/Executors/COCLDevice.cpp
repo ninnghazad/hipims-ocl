@@ -540,7 +540,7 @@ bool COCLDevice::isBusy()
 /*
  *  Get a short name for the device
  */
-std::string		COCLDevice::getDeviceShortName( void )
+std::string COCLDevice::getDeviceShortName( void )
 {
 	std::string sName = "";
 

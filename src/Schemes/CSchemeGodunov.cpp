@@ -1158,7 +1158,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		// Are we expected to run?
 		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
 			#ifdef DEBUG_MPI
-				pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + " " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
+				pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
 					"running: " + std::to_string(this->bRunning) + " "
 					"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
 			#endif
