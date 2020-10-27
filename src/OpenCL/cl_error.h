@@ -83,11 +83,19 @@ inline cl_int cl_assert(cl_int const code, char const * const command, char cons
 			// just crash on OpenCL errors.
 			exit(code);
 		}
-	} else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": \"" << command << "\" (" << code << ") = \"CL_SUCCESS\"." << std::endl;
+	}
+#ifdef DEBUG_MPI
+	else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": \"" << command << "\" (" << code << ") = \"CL_SUCCESS\"." << std::endl;
+#endif
 	return code;
 }
 
 #define STR(s) #s
 //#define cl(...)		cl_assert((cl##__VA_ARGS__), __FILE__, __LINE__, true);
-#define cl(...)		cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
-#define cl_ok(err) cl_assert(err, STR(__VA_ARGS__), __FILE__, __LINE__, true);
+#define cl(...)	\
+#ifdef
+	std::cout << "OPENCL CALL: \"" << STR(__VA_ARGS__) << "\" # \"" << __FILE__ <<  "\", line " << __LINE__ << "." << std::endl;\
+#endif
+cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
+
+#define cl_ok(err) 	cl_assert(err, STR(__VA_ARGS__), __FILE__, __LINE__, true);

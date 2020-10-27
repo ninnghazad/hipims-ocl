@@ -858,8 +858,7 @@ void	CModel::runModelSync()
 /*
 *  Block execution across all domains which reside on this node only
 */
-void	CModel::runModelBlockNode()
-{
+void CModel::runModelBlockNode() {
 	for (unsigned int i = 0; i < domains->getDomainCount(); i++)
 	{
 		if (domains->isDomainLocal(i))
@@ -870,8 +869,7 @@ void	CModel::runModelBlockNode()
 /*
  *  Block execution across all domains until every single one is ready
  */
-void	CModel::runModelBlockGlobal()
-{
+void CModel::runModelBlockGlobal() {
 	this->runModelBlockNode();
 #ifdef MPI_ON
 	pManager->getMPIManager()->asyncBlockOnComm();
@@ -881,8 +879,7 @@ void	CModel::runModelBlockGlobal()
 /*
  *  Write output files if required.
  */
-void CModel::runModelOutputs()
-{
+void CModel::runModelOutputs() {
 	if ( bRollbackRequired || !bSynchronised || !bAllIdle ||
 		!( fabs(this->dCurrentTime - dLastOutputTime - pManager->getOutputFrequency()) < 1E-5 && this->dCurrentTime > dLastOutputTime) )
 		return;
