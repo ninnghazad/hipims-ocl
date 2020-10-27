@@ -390,9 +390,9 @@ void	COCLDevice::blockUntilFinished()
 	{
 		// std::unique_lock<std::mutex> lock(clFinishMutex);
 		this->bBusy = true;
-		// cl(clFlush( this->clQueue ));
+		// cl(clFlush( this->clQueue )); // clFinish (at least by standard reference) includes a flush
 		cl(clFinish( this->clQueue ));
-		
+
 		/*
 		if (clMarkerEvent != NULL) {
 			cl(clReleaseEvent(clMarkerEvent));

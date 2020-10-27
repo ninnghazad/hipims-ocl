@@ -84,7 +84,7 @@ inline cl_int cl_assert(cl_int const code, char const * const command, char cons
 			exit(code);
 		}
 	}
-#ifdef DEBUG_MPI
+#ifdef DEBUG_OPENCL
 	else std::cout << "OPENCL SUCCESS: \"" << file << "\", line " << line << ": \"" << command << "\" (" << code << ") = \"CL_SUCCESS\"." << std::endl;
 #endif
 	return code;
@@ -93,7 +93,7 @@ inline cl_int cl_assert(cl_int const code, char const * const command, char cons
 #define STR(s) #s
 //#define cl(...)		cl_assert((cl##__VA_ARGS__), __FILE__, __LINE__, true);
 
-#ifdef
+#ifdef DEBUG_OPENCL
 	#define cl(...)	\
 	std::cout << "OPENCL CALL: \"" << STR(__VA_ARGS__) << "\" # \"" << __FILE__ <<  "\":" << __LINE__ << "." << std::endl;\
 	cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
