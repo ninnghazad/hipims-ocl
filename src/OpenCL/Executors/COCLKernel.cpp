@@ -75,8 +75,8 @@ void COCLKernel::scheduleExecution()
 
 	cl_event		clEvent		= NULL;
 	cl_int			iErrorID	= CL_SUCCESS;
-#ifdef DEBUG_MPI
-	pManager->log->writeLine("OPENCL KERNEL: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
+#ifdef DEBUG_OPENCL
+	pManager->log->writeLine("OPENCL KERNEL START: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
 #endif
 	pDevice->markBusy();
 
@@ -111,6 +111,9 @@ void COCLKernel::scheduleExecution()
 			fCallback,
 			&this->uiDeviceID
 		);
+		#ifdef DEBUG_OPENCL
+			pManager->log->writeLine("OPENCL KERNEL SET CALLBACK: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
+		#endif
 
 		if ( iErrorID != CL_SUCCESS )
 		{
@@ -123,6 +126,10 @@ void COCLKernel::scheduleExecution()
 			return;
 		}
 	}
+	#ifdef DEBUG_OPENCL
+		pManager->log->writeLine("OPENCL KERNEL FINISH: #" + toString( this->uiDeviceID ) + " kernel: " + sName + "\n");
+	#endif
+
 }
 
 /*
