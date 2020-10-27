@@ -284,7 +284,8 @@ void COCLDevice::createQueue()
 	this->clQueue = clCreateCommandQueue(
 		this->clContext,
 		this->clDevice,
-		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+	//	CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+		0,
 		&iErrorID
 	);
 
@@ -372,7 +373,7 @@ bool COCLDevice::isFiltered()
 /*
  *  Enqueue a buffer command to synchronise threads
  */
-void	COCLDevice::queueBarrier()
+void COCLDevice::queueBarrier()
 {
 #ifdef USE_SIMPLE_ARCH_OPENCL
 	// Causes crashes... for some reason... Review later.
@@ -385,7 +386,7 @@ void	COCLDevice::queueBarrier()
  *  Block program execution until all commands in the queue are
  *  completed.
  */
-void	COCLDevice::blockUntilFinished()
+void COCLDevice::blockUntilFinished()
 {
 	{
 		// std::unique_lock<std::mutex> lock(clFinishMutex);
