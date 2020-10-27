@@ -422,7 +422,7 @@ bool COCLDevice::isDoubleCompatible()
 void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	//unsigned int uiDeviceNo = *(unsigned int*)vData; // Unused
-	assert(iStatus == CL_​COMPLETE);
+	assert(iStatus == CL_COMPLETE);
 	cl(clReleaseEvent( clEvent ));
 }
 
