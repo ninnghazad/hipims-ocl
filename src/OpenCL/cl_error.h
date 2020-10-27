@@ -92,10 +92,15 @@ inline cl_int cl_assert(cl_int const code, char const * const command, char cons
 
 #define STR(s) #s
 //#define cl(...)		cl_assert((cl##__VA_ARGS__), __FILE__, __LINE__, true);
-#define cl(...)	\
+
 #ifdef
-	std::cout << "OPENCL CALL: \"" << STR(__VA_ARGS__) << "\" # \"" << __FILE__ <<  "\", line " << __LINE__ << "." << std::endl;\
+	#define cl(...)	\
+	std::cout << "OPENCL CALL: \"" << STR(__VA_ARGS__) << "\" # \"" << __FILE__ <<  "\":" << __LINE__ << "." << std::endl;\
+	cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
+#else
+	#define cl(...)	\
+	cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
 #endif
-cl_assert((__VA_ARGS__), STR(__VA_ARGS__), __FILE__, __LINE__, true);
+
 
 #define cl_ok(err) 	cl_assert(err, STR(__VA_ARGS__), __FILE__, __LINE__, true);
