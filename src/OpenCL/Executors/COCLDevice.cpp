@@ -492,8 +492,8 @@ void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, v
 
 	COCLDevice* pDevice = pManager->getExecutor()->getDevice( uiDeviceNo );
 	pDevice->markerCompletion();
-	#ifdef DEBUG_MPI
-	std::cerr << __PRETTY_FUNCTION__ << std::endl;
+	#ifdef DEBUG_OPENCL
+		std::cerr << __PRETTY_FUNCTION__ << std::endl;
 	#endif
 }
 

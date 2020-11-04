@@ -207,15 +207,15 @@ void COCLBuffer::queueReadPartial(cl_ulong ulOffset, size_t ulSize, void* pMemBl
 	// Add a read buffer to the queue (non-blocking)
 	// Calling functions are expected to handle barriers etc.
 	cl_int	iReturn = clEnqueueReadBuffer(
-		this->clQueue,				// Device queue
-		clBuffer,					// Buffer object
-		CL_FALSE,					// Blocking?
-		ulOffset,					// Offset
-		ulSize,						// Size
-		pMemBlock,					// Target pointer
-		NULL,						// No. of events in wait list
-		NULL,						// Wait list
-		( fCallbackRead != NULL && fCallbackRead != COCLDevice::defaultCallback ? &clEvent : NULL )					// Event pointer
+		this->clQueue,		// Device queue
+		clBuffer,		// Buffer object
+		CL_FALSE,		// Blocking?
+		ulOffset,		// Offset
+		ulSize,			// Size
+		pMemBlock,		// Target pointer
+		NULL,			// No. of events in wait list
+		NULL,			// Wait list
+		( fCallbackRead != NULL && fCallbackRead != COCLDevice::defaultCallback ? &clEvent : NULL ) // Event pointer
 	);
 
 	if ( iReturn != CL_SUCCESS )
