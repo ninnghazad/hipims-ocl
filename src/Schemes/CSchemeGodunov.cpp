@@ -22,7 +22,7 @@
 #include <algorithm>
 
 #include <chrono>
-using namespace std::lterals::chrono_literals;
+using namespace std::literals::chrono_literals;
 
 #include "../common.h"
 #include "../main.h"
