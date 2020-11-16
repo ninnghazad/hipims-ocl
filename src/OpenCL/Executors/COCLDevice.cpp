@@ -445,35 +445,8 @@ void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, 
 void COCLDevice::flushAndSetMarker()
 {
 	this->bBusy = true;
-	cl(clFlush(clQueue));
+	flush();
 	return;
-
-#ifdef USE_SIMPLE_ARCH_OPENCL
-	this->blockUntilFinished();
-	return;
-#endif
-
-	if ( clMarkerEvent != NULL )
-	{
-		cl(clReleaseEvent( clMarkerEvent ));
-	}
-
-	// NOTE: OpenCL 1.2 uses cl(clEnqueueMarkerWithWaitList()) instead
-	clEnqueueMarker(
-		 clQueue,
-		 &clMarkerEvent
-	);
-
-	clSetEventCallback(
-		clMarkerEvent,
-		CL_COMPLETE,
-		COCLDevice::markerCallback,
-		static_cast<void*>( &this->uiDeviceNo )
-	);
-	#ifdef DEBUG_OPENCL
-		std::cerr << __PRETTY_FUNCTION__ << ": MARKER CALLBACK SET" << std::endl;
-	#endif
-	cl(clFlush(clQueue));
 }
 
 /*
@@ -515,31 +488,6 @@ bool COCLDevice::isBusy()
 {
 	// To use the callback mechanism...
 	return this->bBusy;
-
-	if (clMarkerEvent == NULL)
-		return false;
-
-	cl_int iStatus;
-	size_t szStatusSize;
-	cl_int iQueryStatus = clGetEventInfo(
-		clMarkerEvent,
-		CL_EVENT_COMMAND_EXECUTION_STATUS,
-		sizeof(cl_int),
-		&iStatus,
-		&szStatusSize
-	);
-
-	if (iQueryStatus != CL_SUCCESS)
-		return true;
-
-	pManager->log->writeLine("Exec status for device #" + toString(uiDeviceNo)+" is " + toString(iStatus));
-	if (iStatus == CL_COMPLETE)
-	{
-		return false;
-	}
-	else {
-		return true;
-	}
 }
 
 

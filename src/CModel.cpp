@@ -726,7 +726,7 @@ void	CModel::runModelDomainExchange()
 		{
 			domains->getDomain(i)->getScheme()->importLinkZoneData();
 			// TODO: Above command does not actually cause import -- next line can be removed?
-			domains->getDomain(i)->getDevice()->flushAndSetMarker();
+			// domains->getDomain(i)->getDevice()->flushAndSetMarker();
 		}
 	}
 
