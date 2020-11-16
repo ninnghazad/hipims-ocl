@@ -492,6 +492,7 @@ void CModel::visualiserUpdate()
 void CL_CALLBACK CModel::visualiserCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	assert(iStatus == CL_COMPLETE);
+	pManager->log->writeLine( "Visualiser update..." );
 	pManager->visualiserUpdate();
 	cl(clReleaseEvent( clEvent ));
 }

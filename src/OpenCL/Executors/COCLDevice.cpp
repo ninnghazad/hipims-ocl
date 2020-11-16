@@ -470,7 +470,9 @@ void COCLDevice::flushAndSetMarker()
 		COCLDevice::markerCallback,
 		static_cast<void*>( &this->uiDeviceNo )
 	);
-
+	#ifdef DEBUG_OPENCL
+		std::cerr << __PRETTY_FUNCTION__ << ": MARKER CALLBACK SET" << std::endl;
+	#endif
 	cl(clFlush(clQueue));
 }
 
@@ -493,7 +495,7 @@ void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, v
 	COCLDevice* pDevice = pManager->getExecutor()->getDevice( uiDeviceNo );
 	pDevice->markerCompletion();
 	#ifdef DEBUG_OPENCL
-		std::cerr << __PRETTY_FUNCTION__ << std::endl;
+		std::cerr << __PRETTY_FUNCTION__ << ": MARKER CALLBACK CALLED" << std::endl;
 	#endif
 }
 
