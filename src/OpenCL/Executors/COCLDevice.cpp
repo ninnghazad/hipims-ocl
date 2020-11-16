@@ -390,6 +390,8 @@ void COCLDevice::queueBarrier()
 void COCLDevice::blockUntilFinished()
 {
 	{
+		flush();
+
 		// std::unique_lock<std::mutex> lock(clFinishMutex);
 		this->bBusy = true;
 
@@ -467,7 +469,7 @@ void	COCLDevice::flush()
 void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
 	exit(2);
-	
+
 	unsigned int uiDeviceNo = *(unsigned int*)vData;
 	cl(clReleaseEvent( clEvent ));
 
