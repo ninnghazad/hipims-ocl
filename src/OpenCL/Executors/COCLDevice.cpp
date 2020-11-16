@@ -285,8 +285,8 @@ void COCLDevice::createQueue()
 		this->clContext,
 		this->clDevice,
 		//CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-		CL_QUEUE_PROFILING_ENABLE,
-		// 0,
+		//CL_QUEUE_PROFILING_ENABLE,
+		0,
 		&iErrorID
 	);
 
@@ -438,6 +438,9 @@ void CL_CALLBACK COCLDevice::defaultCallback( cl_event clEvent, cl_int iStatus, 
 #endif
 	assert(iStatus == CL_COMPLETE);
 	cl(clReleaseEvent( clEvent ));
+
+	// DEBUGGING - make sure this is never called.
+	exit(1);
 }
 
 /*
@@ -463,6 +466,8 @@ void	COCLDevice::flush()
  */
 void CL_CALLBACK COCLDevice::markerCallback( cl_event clEvent, cl_int iStatus, void * vData )
 {
+	exit(2);
+	
 	unsigned int uiDeviceNo = *(unsigned int*)vData;
 	cl(clReleaseEvent( clEvent ));
 
