@@ -1155,6 +1155,7 @@ void CSchemeGodunov::Threaded_runBatch()
 	// associated with creating a thread.
 	while (this->bThreadRunning) {
 		this->pDomain->getDevice()->flush();
+		
 
 		// Are we expected to run?
 		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
