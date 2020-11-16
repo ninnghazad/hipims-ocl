@@ -284,7 +284,8 @@ void COCLDevice::createQueue()
 	this->clQueue = clCreateCommandQueue(
 		this->clContext,
 		this->clDevice,
-		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+		//CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+		CL_QUEUE_PROFILING_ENABLE,
 		// 0,
 		&iErrorID
 	);
