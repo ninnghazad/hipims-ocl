@@ -387,10 +387,14 @@ void COCLDevice::queueBarrier()
  *  Block program execution until all commands in the queue are
  *  completed.
  */
+ std::mutex debugMutex0;
 void COCLDevice::blockUntilFinished()
 {
 	{
-		std::cerr << "DEVICE STATE: " << getDeviceID() << " bBusy: " << this->bBusy << " bErrored: " << this->bErrored << std::endl;
+		{
+			std::unique_lock<std::mutex> lock(debugMutex0);
+			std::cerr << "DEVICE STATE: " << getDeviceID() << " bBusy: " << this->bBusy << " bErrored: " << this->bErrored << std::endl;
+		}
 		this->bBusy = true;
 
 #ifdef DEBUG_OPENCL
