@@ -42,8 +42,8 @@ class COCLDevice
 		// Used in MPI implementations, and for communication with the client in the DLL compile
 		struct sDeviceSummary
 		{
-			char			cDeviceName[100];
-			char			cDeviceType[10];
+			char		cDeviceName[100];
+			char		cDeviceType[10];
 			unsigned int	uiDeviceID;
 			unsigned int	uiDeviceNumber;
 		};
@@ -55,12 +55,12 @@ class COCLDevice
 		cl_bool						clDeviceAvailable;
 		cl_bool						clDeviceCompilerAvailable;
 		cl_bool						clDeviceErrorCorrection;
-		cl_device_exec_capabilities	clDeviceExecutionCapability;
+		cl_device_exec_capabilities			clDeviceExecutionCapability;
 		cl_ulong					clDeviceGlobalCacheSize;
-		cl_device_mem_cache_type	clDeviceGlobalCacheType;
+		cl_device_mem_cache_type			clDeviceGlobalCacheType;
 		cl_ulong					clDeviceGlobalSize;
 		cl_ulong					clDeviceLocalSize;
-		cl_device_local_mem_type	clDeviceLocalType;
+		cl_device_local_mem_type			clDeviceLocalType;
 		cl_uint						clDeviceClockFrequency;
 		cl_uint						clDeviceComputeUnits;
 		cl_uint						clDeviceMaxConstants;
@@ -75,24 +75,24 @@ class COCLDevice
 		char*						clDeviceCVersion;
 		char*						clDeviceProfile;
 		size_t						clDeviceTimerResolution;
-		cl_command_queue_properties	clDeviceQueueProperties;
-		cl_device_fp_config			clDeviceSingleFloatConfig;
-		cl_device_fp_config			clDeviceDoubleFloatConfig;
-		cl_device_type				clDeviceType;
+		cl_command_queue_properties			clDeviceQueueProperties;
+		cl_device_fp_config				clDeviceSingleFloatConfig;
+		cl_device_fp_config				clDeviceDoubleFloatConfig;
+		cl_device_type					clDeviceType;
 		char*						clDeviceVendor;
 		char*						clDeviceOpenCLVersion;
 		char*						clDeviceOpenCLDriver;
 		cl_uint						clDeviceAlignBits;
 
 		// Public functions
-		void						markBusy()							{ bBusy = true;  }					// Set the device as busy
-		cl_context					getContext( void )					{ return clContext; }				// Returns the OpenCL context for this device only
-		CExecutorControlOpenCL*		getExecController( void )			{ return execController; }			// Get the owning exec controller
-		unsigned int				getDeviceID( void )					{ return uiDeviceNo; }				// Fetch the device number
-		cl_device_id				getDevice( void )					{ return clDevice; }				// Fetch the OpenCL device
-		char*						getVendor( void )					{ return clDeviceVendor; }			// Get vendor name
-		cl_device_type				getDeviceType( void )				{ return clDeviceType; }			// Get device type (bitmask)
-		char*						getOCLVersion( void )				{ return clDeviceOpenCLVersion; }	// Get OpenCL version
+		void						markBusy()			{ bBusy = true;  }					// Set the device as busy
+		cl_context					getContext( void )		{ return clContext; }				// Returns the OpenCL context for this device only
+		CExecutorControlOpenCL*				getExecController( void )	{ return execController; }			// Get the owning exec controller
+		unsigned int					getDeviceID( void )		{ return uiDeviceNo; }				// Fetch the device number
+		cl_device_id					getDevice( void )		{ return clDevice; }				// Fetch the OpenCL device
+		char*						getVendor( void )		{ return clDeviceVendor; }			// Get vendor name
+		cl_device_type					getDeviceType( void )		{ return clDeviceType; }			// Get device type (bitmask)
+		char*						getOCLVersion( void )		{ return clDeviceOpenCLVersion; }	// Get OpenCL version
 		void						getSummary( sDeviceSummary & );											// Get device summary info
 		bool						isBusy(void);															// Is the device busy?
 		std::string					getDeviceShortName( void );												// Fetch a short identifier for the device

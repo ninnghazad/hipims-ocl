@@ -390,6 +390,7 @@ void COCLDevice::queueBarrier()
 void COCLDevice::blockUntilFinished()
 {
 	{
+		std::cerr << "DEVICE STATE: " << getDeviceID() << " bBusy: " << this->bBusy << " bErrored: " << this->bErrored << std::endl;
 		this->bBusy = true;
 
 #ifdef DEBUG_OPENCL
