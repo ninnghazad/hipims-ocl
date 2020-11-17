@@ -28,7 +28,7 @@
 #include "../OpenCL/Executors/COCLBuffer.h"
 
 #include <atomic>
-#include <mutex>
+#include <shared_mutex>
 namespace model {
 
 // Model scheme types
