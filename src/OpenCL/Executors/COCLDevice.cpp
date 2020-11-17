@@ -284,9 +284,9 @@ void COCLDevice::createQueue()
 	this->clQueue = clCreateCommandQueue(
 		this->clContext,
 		this->clDevice,
-		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+		//CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
 		//CL_QUEUE_PROFILING_ENABLE,
-		//0,
+		0,
 		&iErrorID
 	);
 
@@ -391,10 +391,12 @@ void COCLDevice::queueBarrier()
 void COCLDevice::blockUntilFinished()
 {
 	{
+
 		{
 			std::unique_lock<std::mutex> lock(debugMutex0);
 			std::cerr << "DEVICE STATE: " << getDeviceID() << " bBusy: " << this->bBusy << " bErrored: " << this->bErrored << std::endl;
 		}
+		flush();
 		this->bBusy = true;
 
 #ifdef DEBUG_OPENCL
