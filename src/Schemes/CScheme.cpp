@@ -303,7 +303,7 @@ bool	CScheme::isRunning()
 	return bRunning;
 }
 
-bool	CScheme::setRunning(bool running = true)
+void	CScheme::setRunning(bool running = true)
 {
 	std::unique_lock<std::shared_mutex> lock(mRunning);
 	bRunning = running;
