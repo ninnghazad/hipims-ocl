@@ -1157,7 +1157,7 @@ void CSchemeGodunov::Threaded_runBatch()
 	// Keep the thread in existence because of the overhead
 	// associated with creating a thread.
 	while (this->bThreadRunning) {
-		//this->pDomain->getDevice()->flush();
+		this->pDomain->getDevice()->flush();
 
 
 		// Are we expected to run?
