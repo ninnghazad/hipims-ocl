@@ -284,9 +284,9 @@ void COCLDevice::createQueue()
 	this->clQueue = clCreateCommandQueue(
 		this->clContext,
 		this->clDevice,
-		//CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+		CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
 		//CL_QUEUE_PROFILING_ENABLE,
-		0,
+		//0,
 		&iErrorID
 	);
 
@@ -390,9 +390,6 @@ void COCLDevice::queueBarrier()
 void COCLDevice::blockUntilFinished()
 {
 	{
-		flush();
-
-		// std::unique_lock<std::mutex> lock(clFinishMutex);
 		this->bBusy = true;
 
 #ifdef DEBUG_OPENCL
@@ -405,13 +402,6 @@ void COCLDevice::blockUntilFinished()
 
 		// cl(clFlush( this->clQueue )); // clFinish (at least by standard reference) includes a flush
 		cl(clFinish( this->clQueue ));
-
-		/*
-		if (clMarkerEvent != NULL) {
-			cl(clReleaseEvent(clMarkerEvent));
-			clMarkerEvent = NULL;
-		}
-		*/
 		this->bBusy = false;
 	}
 	#ifdef DEBUG_MPI

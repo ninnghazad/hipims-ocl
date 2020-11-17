@@ -1143,6 +1143,9 @@ void CSchemeGodunov::runBatchThread()
 	if (result == 0)
 		pthread_detach(tid);
 #endif
+#ifdef DEBUG_OPENCL
+	pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] runBatchThread finished");
+#endif
 }
 
 /*
@@ -1154,12 +1157,12 @@ void CSchemeGodunov::Threaded_runBatch()
 	// Keep the thread in existence because of the overhead
 	// associated with creating a thread.
 	while (this->bThreadRunning) {
-		this->pDomain->getDevice()->flush();
-		
+		//this->pDomain->getDevice()->flush();
+
 
 		// Are we expected to run?
 		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
-			#ifdef DEBUG_MPI
+			#ifdef DEBUG_OPENCL
 				pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
 					"running: " + std::to_string(this->bRunning) + " "
 					"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
@@ -1174,7 +1177,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		// Have we been asked to update the target time?
 		if (this->bUpdateTargetTime) {
 			this->bUpdateTargetTime = false;
-#ifdef DEBUG_MPI
+#ifdef DEBUG_OPENCL
 			pManager->log->writeLine("[DEBUG] [" + std::to_string(this->pDomain->getID()) + "] Setting new target time of " + Util::secondsToTime(this->dTargetTime) + " (dt: " + std::to_string(this->dCurrentTimestep) + ")...");
 #endif
 
