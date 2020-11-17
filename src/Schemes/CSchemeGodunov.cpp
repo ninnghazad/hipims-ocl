@@ -1157,16 +1157,16 @@ void CSchemeGodunov::Threaded_runBatch()
 	// Keep the thread in existence because of the overhead
 	// associated with creating a thread.
 	while (this->bThreadRunning) {
-		this->pDomain->getDevice()->flush();
+		//this->pDomain->getDevice()->flush();
 
 
 		// Are we expected to run?
 		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
-			#ifdef DEBUG_OPENCL
+			// #ifdef DEBUG_OPENCL
 				pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
 					"running: " + std::to_string(this->bRunning) + " "
 					"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
-			#endif
+			// #endif
 			if ( this->pDomain->getDevice()->isBusy() ) {
 				this->pDomain->getDevice()->blockUntilFinished();
 			}
