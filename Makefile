@@ -1,9 +1,11 @@
 ifeq (,$(wildcard /usr/local/bin/mpic++))
 	CPP = g++
-	MACROS := -D MPI_OFF -std=c++17 -O3 -march=native -DDEBUG -DDEBUG_OPENCL -DDEBUG_MPI
+	MACROS := -D MPI_OFF -std=c++17 -O3 -march=native
+	# -DDEBUG -DDEBUG_OPENCL -DDEBUG_MPI
 else
 	CPP = /usr/local/bin/mpic++
-	MACROS := -D MPI_ON -std=c++17 -O3 -march=native -DDEBUG -DDEBUG_OPENCL -DDEBUG_MPI
+	MACROS := -D MPI_ON -std=c++17 -O3 -march=native
+	# -DDEBUG -DDEBUG_OPENCL -DDEBUG_MPI
 endif
 
 CPP_FILES := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp) $(wildcard src/*/*/*.cpp) $(wildcard src/*/*/*/*.cpp) $(wildcard src/*/*/*/*/*.cpp)
