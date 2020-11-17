@@ -1093,7 +1093,7 @@ void	CSchemeGodunov::prepareSimulation()
 	dLastSyncTime			= 0.0;
 
 	// States
-	bRunning = false;
+	setRunning(false);
 	bThreadRunning = false;
 	bThreadTerminated = false;
 }
@@ -1161,19 +1161,21 @@ void CSchemeGodunov::Threaded_runBatch()
 
 
 		// Are we expected to run?
-		if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
-			// #ifdef DEBUG_OPENCL
-				pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
-					"running: " + std::to_string(this->bRunning) + " "
-					"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
-			// #endif
-			if ( this->pDomain->getDevice()->isBusy() ) {
-				this->pDomain->getDevice()->blockUntilFinished();
+		{
+			std::shared_lock<std::shared_mutex> lock(mRunning);
+			if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
+				// #ifdef DEBUG_OPENCL
+					pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
+						"running: " + std::to_string(this->bRunning) + " "
+						"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
+				// #endif
+				if ( this->pDomain->getDevice()->isBusy() ) {
+					this->pDomain->getDevice()->blockUntilFinished();
+				}
+
+				continue;
 			}
-
-			continue;
 		}
-
 		// Have we been asked to update the target time?
 		if (this->bUpdateTargetTime) {
 			this->bUpdateTargetTime = false;
@@ -1280,7 +1282,7 @@ void CSchemeGodunov::Threaded_runBatch()
 		//       This does NOT fix the sync bug
 		// if (this->dCurrentTime > dTargetTime /* + 1E-5 */)
 		// {
-		// 	bRunning = false;
+		// 	setRunning(false);
 		// 	continue;
 		// }
 
@@ -1402,7 +1404,7 @@ void CSchemeGodunov::Threaded_runBatch()
 #endif
 
 		// Wait until further work is scheduled
-		this->bRunning = false;
+		setRunning(false);
 		//
 		// if(this->dCurrentTimestep <= 0) {
 		// 	if ( this->pDomain->getDevice()->isBusy() )
@@ -1514,7 +1516,7 @@ void	CSchemeGodunov::runSimulation( double dTargetTime, double dRealTime )
 	}
 
 	dBatchStartedTime = dRealTime;
-	this->bRunning = true;
+	setRunning(true);
 	this->runBatchThread();
 }
 
@@ -1527,7 +1529,7 @@ void	CSchemeGodunov::cleanupSimulation()
 	dBatchStartedTime = 0.0;
 
 	// Kill the worker thread
-	bRunning = false;
+	setRunning(false);
 	bThreadRunning = false;
 
 	// Wait for the thread to terminate before returning
@@ -1588,7 +1590,7 @@ void	CSchemeGodunov::rollbackSimulation( double dCurrentTime, double dTargetTime
  */
 bool	CSchemeGodunov::isSimulationFailure( double dExpectedTargetTime )
 {
-	if (bRunning)
+	if (isRunning())
 		return false;
 
 	// Can't exceed number of buffer cells in forecast mode
@@ -1637,7 +1639,7 @@ bool	CSchemeGodunov::isSimulationSyncReady( double dExpectedTargetTime )
 	//if ( isSimulationFailure() )
 	//	return false;
 
-	if (bRunning)
+	if (isRunning())
 		return false;
 
 	// Have we hit our target time?

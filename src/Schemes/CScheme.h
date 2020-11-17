@@ -87,6 +87,7 @@ class CScheme
 		virtual void		setupFromConfig( XMLElement*, bool = false );							// Set up the scheme
 		bool				isReady();																// Is the scheme ready to run?
 		bool				isRunning();															// Is this scheme currently running a batch?
+		void				setRunning(bool);
 		virtual void		logDetails() = 0;														// Write some details about the scheme
 		virtual void		prepareAll() = 0;														// Prepare absolutely everything for a model run
 		virtual double		proposeSyncPoint( double ) = 0;											// Propose a synchronisation point
@@ -136,6 +137,7 @@ class CScheme
 		// ...
 
 		// Private variables
+		std::shared_mutex		mRunning;
 		std::atomic<bool>		bRunning;																// Is this simulation currently running?
 		std::atomic<bool>		bThreadRunning;															// Is the worker thread running?
 		std::atomic<bool>		bThreadTerminated;														// Has the worker thread been terminated?

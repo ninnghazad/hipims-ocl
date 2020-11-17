@@ -46,10 +46,10 @@ CScheme::CScheme()
 	this->bAutomaticQueue		= true;
 	this->uiQueueAdditionSize	= 1;
 	this->dCourantNumber		= 0.5;
-	this->dTimestep				= 0.001;
+	this->dTimestep			= 0.001;
 	this->bDynamicTimestep		= true;
 	this->bFrictionEffects		= true;
-	this->dTargetTime			= 0.0;
+	this->dTargetTime		= 0.0;
 	this->uiBatchSkipped		= 0;
 	this->uiBatchSuccessful		= 0;
 	this->dBatchTimesteps		= 0.0;
@@ -299,5 +299,12 @@ double	CScheme::getTargetTime()
  */
 bool	CScheme::isRunning()
 {
+	std::shared_lock<std::shared_mutex> lock(mRunning);
 	return bRunning;
+}
+
+bool	CScheme::setRunning(bool running = true)
+{
+	std::unique_lock<std::shared_mutex> lock(mRunning);
+	bRunning = running;
 }
