@@ -1165,9 +1165,9 @@ void CSchemeGodunov::Threaded_runBatch()
 			std::shared_lock<std::shared_mutex> lock(mRunning);
 			if  (!this->bRunning || this->pDomain->getDevice()->isBusy()) {
 				// #ifdef DEBUG_OPENCL
-					pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
-						"running: " + std::to_string(this->bRunning) + " "
-						"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
+					// pManager->log->writeLine("[DEBUG] [domain: " + std::to_string(this->pDomain->getID()) + ", device: " + std::to_string(this->pDomain->getDevice()->getDeviceID()) + "] "
+					// 	"running: " + std::to_string(this->bRunning) + " "
+					// 	"busy: " + std::to_string(this->pDomain->getDevice()->isBusy()));
 				// #endif
 				if ( this->pDomain->getDevice()->isBusy() ) {
 					this->pDomain->getDevice()->blockUntilFinished();
