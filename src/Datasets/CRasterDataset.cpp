@@ -258,7 +258,7 @@ bool	CRasterDataset::domainToRaster(
 							   pDomain->getBedElevation( ulCellID );
 				dRow[ iCol ] = ( dDepth > 1E-8 ?
 							   sqrt(
-								pow(( pDomain->getStateValue( ulCellID, model::domainValueIndices::kValueDischargeY ) / dDepth ),2)+
+								pow(( pDomain->getStateValue( ulCellID, model::domainValueIndices::kValueDischargeX ) / dDepth ),2)+
 							   	pow(( pDomain->getStateValue( ulCellID, model::domainValueIndices::kValueDischargeY ) / dDepth ),2)
 								)
 								:
